@@ -1,0 +1,43 @@
+Table users{
+  id int [pk, increment] // auto-increment
+  first_name varchar
+  last_name varchar
+  email varchar
+  hashed_password varchar
+  bio text
+  website varchar
+  instagram varchar
+  facebook varchar
+}
+
+Table campaigns {
+  id int [pk, increment] // auto-increment
+  name varchar
+  summary varchar
+  image varchar
+  story text
+  bid int
+  closing_date date
+  location varchar
+  user_id int [ref: > users.id]
+  charity_id int [ref: > charities.id]
+  category_id int [ref: > categories.id]
+}
+
+Table charities{
+  id int [pk, increment] // auto-increment
+  name varchar
+  bio text
+  website varchar
+}
+
+Table categories {
+  id int [pk]
+  name varchar
+ }
+
+Table favorites {
+  id int [pk]
+  user_id int [ref: > users.id]
+  campaign_id int [ref: > campaigns.id]
+ }
