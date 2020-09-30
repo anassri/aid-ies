@@ -3,49 +3,45 @@ module.exports = (sequelize, DataTypes) => {
   const Campaign = sequelize.define('Campaign', {
     name: {
       allowNull: false,
-      type: Sequelize.STRING(255),
+      type: DataTypes.STRING(255),
       unique: true,
     },
     summary: {
       allowNull: false,
-      type: Sequelize.STRING(255),
+      type: DataTypes.STRING(255),
     },
     image: {
       allowNull: false,
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       unique: true,
     },
     story: {
       allowNull: false,
-      type: Sequelize.TEXT
+      type: DataTypes.TEXT
     },
     startingPrice: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     closingDate: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: DataTypes.DATE
     },
     completed: {
       allowNull: false,
-      type: Sequelize.BOOLEAN
-    },
-    location: {
-      allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.BOOLEAN
     },
     userId: {
       allowNull: false,
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     },
     charityId: {
       allowNull: false,
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     },
     categoryId: {
       allowNull: false,
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     },
   }, {});
   Campaign.associate = function(models) {
@@ -57,11 +53,12 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'userId',
       through: 'Favorite'
     });
-    Campaign.belongsToMany(models.User, {
+    Campaign.hasMany(models.Bid, { foreignKey: "campaignId" });
+    /* Campaign.belongsToMany(models.User, {
       foreignKey: 'campaignId',
       otherKey: 'userId',
       through: 'Bids'
-    });
+    }); */
   };
   return Campaign;
 };
