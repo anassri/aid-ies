@@ -3,11 +3,11 @@ module.exports = (sequelize, DataTypes) => {
   const Favorite = sequelize.define('Favorite', {
     userId: {
       allowNull: false,
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     },
     campaignId: {
       allowNull: false,
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     },
   }, {});
   Favorite.associate = function(models) {

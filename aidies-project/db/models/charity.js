@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Charity = sequelize.define('Charity', {
     name: {
       allowNull: false,
-      type: DataTypes.string,
+      type: DataTypes.STRING,
       unique: true,
     },
     bio: {
