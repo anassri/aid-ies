@@ -1,9 +1,10 @@
 const router = require('express').Router();
 
-const routes = ['users'];
+const routes = ['session','user','campaign'];
 
 for (let route of routes) {
   router.use(`/${route}`, require(`./${route}`));
 }
+
 
 module.exports = router;

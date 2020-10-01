@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.TEXT,
     },
+    location: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
     website: {
       type: DataTypes.STRING,
     },
@@ -41,6 +45,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     facebook: {
+      type: DataTypes.STRING,
+    },
+    tokenId: {
       type: DataTypes.STRING,
     },
   }, {});
@@ -52,12 +59,28 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'campaignId',
       through: 'Favorite'
     });
-    User.belongsToMany(models.Campaign, {
+    /* User.belongsToMany(models.Campaign, {
       foreignKey: 'userId',
       otherKey: 'campaignId',
       through: 'bids'
-    });
-  };
+    }); */
+    User.hasMany(models.Bid, { foreignKey: "userId" });
 
+  };
+  User.prototype.toSafeObject = function () {
+    return {
+      id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      bio: this.bio,
+      website: this.website,
+      instagram: this.instagram,
+      facebook: this.facebook,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
+    }
+  }
+  User.prototype.isValid = () => true;
   return User;
 };

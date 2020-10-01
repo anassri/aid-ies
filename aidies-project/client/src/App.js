@@ -1,27 +1,29 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import {  useSelector } from 'react-redux';
 
-import UserList from './components/UsersList';
+import Navigation from './components/Navigation';
+import LoginPanel from './components/LoginPanel';
+import SignupPanel from './components/SignupPanel';
+import CampaignBrowser from './components/CampaignBrowser';
 
-
-function App() {
-
+const PrivateRoute = ({component: Component, ...rest}) => (
+  <Route {...rest} render={(props) => (
+    rest.needLogin === true
+      ? <Redirect to='/login' />
+      : <Component {...props} />
+  )} />
+)
+const App = () => {  
+  // const [loaded, setLoaded] = useState(false);
+  const needLogin = useSelector(state => !state.authentication.user);
   return (
     <BrowserRouter>
-        <nav>
-            <ul>
-                <li><NavLink to="/" activeClass="active">Home</NavLink></li>
-                <li><NavLink to="/users" activeClass="active">Users</NavLink></li>
-            </ul>
-        </nav>
+      <Navigation needLogin={needLogin}/>
         <Switch>
-            <Route path="/users">
-                <UserList />
-            </Route>
-
-            <Route path="/">
-                <h1>My Home Page</h1>
-            </Route>
+            <Route path="/" component={CampaignBrowser} />
+            <Route path="/login" component={LoginPanel} />
+            <Route path="/signup" component={SignupPanel} />
         </Switch>
     </BrowserRouter>
   );
