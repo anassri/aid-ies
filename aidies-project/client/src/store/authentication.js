@@ -75,7 +75,7 @@ function loadUser() {
             Cookies.remove("token");
         }
     }
-    return {};
+    return { user: { id: null } };
 }
 
 export default function reducer(state = loadUser(), action) {

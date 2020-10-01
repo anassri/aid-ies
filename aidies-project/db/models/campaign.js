@@ -43,6 +43,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER
     },
+    isExpired: {
+      type: new DataTypes.VIRTUAL(DataTypes.BOOLEAN, ["closingDate"]), 
+      get: function() {
+        return this.get("closingDate") < new Date()
+      }
+      
+    }
   }, {});
   Campaign.associate = function(models) {
     Campaign.belongsTo(models.User, { foreignKey: 'userId' });

@@ -6,6 +6,7 @@ import Navigation from './components/Navigation';
 import LoginPanel from './components/LoginPanel';
 import SignupPanel from './components/SignupPanel';
 import CampaignBrowser from './components/CampaignBrowser';
+import CampaignDetail from './components/CampaignDetail';
 
 const PrivateRoute = ({component: Component, ...rest}) => (
   <Route {...rest} render={(props) => (
@@ -14,16 +15,19 @@ const PrivateRoute = ({component: Component, ...rest}) => (
       : <Component {...props} />
   )} />
 )
+// const redirectFunction = () => history.push('/');
+//<button onClick={redirectFunction}
 const App = () => {  
-  // const [loaded, setLoaded] = useState(false);
-  const needLogin = useSelector(state => !state.authentication.user);
+  const needLogin = useSelector(state => !state.authentication.user.id);
+  console.log(needLogin);
   return (
     <BrowserRouter>
       <Navigation needLogin={needLogin}/>
         <Switch>
-            <Route path="/" component={CampaignBrowser} />
+        <Route path="/campaign/:id" component={() => <CampaignDetail needLogin={needLogin} />}  />
             <Route path="/login" component={LoginPanel} />
-            <Route path="/signup" component={SignupPanel} />
+            <Route exact path="/signup" component={SignupPanel} />
+            <Route exact path="/" component={CampaignBrowser} />
         </Switch>
     </BrowserRouter>
   );

@@ -1,47 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
-import {getCampaigns} from '../store/campaign';
 import { useSelector, useDispatch } from 'react-redux';
+import {getCampaigns} from '../store/campaign';
+import CampaignItems from './CampaignItems';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
+const useStyles = makeStyles((theme) => ({
+    
+    root: {
+        flexGrow: 1,
+        maxWidth: 1080,
+        display: 'flex',
+        justifyContent: 'center',
+        
+    },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+}));
 const CampaignBrowser = () => {
+    const classes = useStyles();
     const campaigns = useSelector(state => state.campaign.list );
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getCampaigns())
-    }, [dispatch]);
+    }, []);
     
+    if(!campaigns.length){
+        return null;
+    }
     return (
-        <main>
-            {campaigns.map((campaign) => {
-                return (
-                    <div className="nav-entry">
-                        <Link key={campaign.id} to={`/campaign/${campaign.id}`}>
-                            <img
-                                className="nav-campaign-image"
-                                src={campaign.image}
-                                alt={campaign.name}
-                                width="300"
-                            />
-                        </Link>
-                            <div>
-                                <div className="primary-text">{campaign.name}</div>
-                                <div className="secondary-text">{campaign.summary}</div>
-                                <div className="campaign-owner">by {campaign.User.firstName} {campaign.User.lastName} for {campaign.Charity.name}</div>
-                                <div className="bid time-left">
-                                    <div className="current-bid"></div>
-                                    <div className="remaingin"></div>
-                                </div>
-                                <div className="bread-crumps">
-                                    <div className="category">{campaign.Category.name}</div>
-                                    <div className="location">{campaign.User.location}</div>
-                                    
-                                </div>
-                            </div> 
-                        </div>
-                );
-            })}
-        </main>
+        <div className={classes.root}>
+            <Grid container 
+                direction="row"
+                justify="center"
+                spacing={3}>
+                {campaigns.map((campaign) => <Grid item xs={4}><CampaignItems key={campaign.id} campaign={campaign} /></Grid>)}
+            </Grid>
+        </div>
     );
 }
 
