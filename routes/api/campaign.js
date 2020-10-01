@@ -49,7 +49,8 @@ const getCampaignById = async (id) => {
         },
         {
             model: Bid,
-            attributes: ["userId", "bid"]
+            attributes: ["userId", "bid"],
+            include: [{ model: User, attributes: ["firstName", "lastName"]}]
         }],
     });
     return campaign;

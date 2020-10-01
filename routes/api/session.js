@@ -34,9 +34,7 @@ router.put('/', email, password, asyncHandler(async function (req, res, next) {
         return next(err);   
     }
     
-    const { jti, token } = getUserToken(user);/* 
-    user.tokenId = jti;
-    await user.save(); */
+    const token  = getUserToken(user);
     res.cookie('aidies/authentication/token', token);
     res.json({ user: user.toSafeObject() });
      
@@ -44,9 +42,6 @@ router.put('/', email, password, asyncHandler(async function (req, res, next) {
 
 
 router.delete('/', asyncHandler(async (req, res) => {
-    // console.log(req);
-    // req.user.tokenId = null;
-    // await req.user.save();
     res.clearCookie('aidies/authentication/token');
     res.json({ message: 'success' });
 }));

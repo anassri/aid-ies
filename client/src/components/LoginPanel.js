@@ -30,7 +30,12 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        backgroundColor: '#222',
+        color: '#fff',
     },
+    link: {
+        color: '#222',
+    }
 }));
 
 const LoginPanel = (props) => {
@@ -46,14 +51,6 @@ const LoginPanel = (props) => {
         e.preventDefault();
         dispatch(login(email, password));
     }
-    const updateEmail = (e)=>{
-        setEmail(e.target.value);
-    }
-    
-    const updatePassword = (e)=>{
-        setPassword(e.target.value);
-    }
-    
     if (user!== null) {
         if(!location){
             return <Redirect to="/" />
@@ -80,7 +77,7 @@ const LoginPanel = (props) => {
                 autoComplete="email"
                 autoFocus
                 value={email}
-                onChange={updateEmail}
+                        onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
                 variant="outlined"
@@ -93,22 +90,21 @@ const LoginPanel = (props) => {
                 id="password"
                 autoComplete="current-password"
                 value={password}
-                onChange={updatePassword}
+                        onChange={(e) => setPassword(e.target.value)}
             />
             <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                color="primary"
                 className={classes.submit}
             >
                             Login
             </Button>
             <Grid container>
                 <Grid item>
-                <Link href='/signup' variant="body2">
-                    {"Don't have an account? Sign Up"}
-                </Link>
+                    <Link href='/signup' variant="body2" className={classes.link}>
+                        {"Don't have an account? Sign Up"}
+                    </Link>
                 </Grid>
             </Grid>
             </form>

@@ -18,7 +18,7 @@ export const DetermineTimeRemaining = ({ closingDate, createdAt }) => {
         }, 1000);
     }, [])
 
-    return duration(remainingSeconds);
+    return `${duration(remainingSeconds)} Remaining`;
 }
 
 export const DetermineBid = ({campaign}) => {
