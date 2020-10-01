@@ -6,87 +6,53 @@ import { useParams, useHistory } from 'react-router-dom';
 import { getOneCampaign, bid, setLocation } from '../store/campaign';
 import { DetermineBid, DetermineTimeRemaining } from './CampaignUtils';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, Typography, Button, Menu, MenuItem} from '@material-ui/core';
+import { Card, Typography, Button} from '@material-ui/core';
 import '../css/campaign.css';
 
-
-const useStyles = makeStyles({
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
     },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    button: {
-        backgroundColor: '#222',
-        color: '#fff',
-    },
-    '&$focus': {
-        backgroundColor: 'green',
-    },
-    color: {
-        color: '#222',
-        
-    },
-    delete:{
-        color: '#FF0000'
-    }
-});
-const CampaignDetail = ({ needLogin}) => {
+}));
+const CampaignCreate = ({ needLogin }) => {
     const classes = useStyles();
-    const {id} = useParams();
+    const { id } = useParams();
     const history = useHistory();
     const location = useLocation();
     const campaign = useSelector(state => state.campaign.current);
     let highest = useSelector(state => state.campaign.highestBid);
     const userId = useSelector(state => state.authentication.user.id);
     const [anchorEl, setAnchorEl] = useState(null);
-    
+
     const dispatch = useDispatch();
-     useEffect(() => {
+    useEffect(() => {
         dispatch(getOneCampaign(id))
-    }, [id]); 
-     
-    if(!campaign || !campaign.User){
+    }, [id]);
+
+    if (!campaign || !campaign.User) {
         return null;
     }
-    const bidsDesc = campaign.Bids.slice(0).reverse();
-    
+
     const handleBid = () => {
-        if (needLogin){
+        if (needLogin) {
             dispatch(setLocation(location.pathname));
-            return history.push("/login"); 
+            return history.push("/login");
         }
         if (!highest) {
             let increaseBid = parseInt(campaign.startingPrice) + 5;
             dispatch(bid(id, increaseBid, userId));
-            
+
         } else {
             let increaseBid = highest + 5;
             dispatch(bid(id, increaseBid, userId));
         }
     }
 
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
     return (
         <Card className={classes.root} className="detail-card">
-            
+
             <div className={classes.details} className="campaign-main-container">
                 <div className="image-container">
                     <img
@@ -96,27 +62,7 @@ const CampaignDetail = ({ needLogin}) => {
                     />
                 </div>
                 <div className="information-container">
-                    {userId === campaign.userId 
-                        ? <div className= "edit-menu"> 
-                           
-                     
-                            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                                <i className="fas fa-ellipsis-h fa-lg edit-icon" ></i>
-                            </Button>
-                            <Menu
-                                id="simple-menu"
-                                anchorEl={anchorEl}
-                                keepMounted
-                                open={Boolean(anchorEl)}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={handleClose}>Edit</MenuItem>
-                                <MenuItem onClick={handleClose} className={classes.delete}>Delete</MenuItem>
-                            </Menu>
-                        </div>
-                     : 
-                     null }
-                    
+
                     <Typography variant="h3" component="h2">
                         {campaign.name}
                     </Typography>
@@ -126,13 +72,13 @@ const CampaignDetail = ({ needLogin}) => {
                     <div className="detail-bid time-left">
                         <div className="detail-current-bid">
                             <Typography variant="h4" component="h2">
-                                <DetermineBid campaign={campaign} />    
+                                <DetermineBid campaign={campaign} />
                             </Typography>
                             <Button onClick={handleBid} size="large" variant="contained" className={classes.button}>
                                 Bid $5
                             </Button>
                         </div>
-                        <Typography variant="h6" component="h2" color="secondary"className="detail-remaining">
+                        <Typography variant="h6" component="h2" color="secondary" className="detail-remaining">
                             <DetermineTimeRemaining closingDate={campaign.closingDate} createdAt={campaign.createdAt} />
                         </Typography>
                     </div>
@@ -144,16 +90,16 @@ const CampaignDetail = ({ needLogin}) => {
                         </div>
                     </div>
                     <div className="information-tabs">
-                        
-                            {campaign.story}
+
+                        {campaign.story}
                     </div>
-                    
+
                 </div>
 
             </div>
-          </Card>
+        </Card>
     )
 }
 
 
-export default CampaignDetail;
+export default CampaignCreate;

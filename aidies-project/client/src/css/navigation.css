@@ -1,0 +1,43 @@
+nav {
+    display: flex;
+    justify-content: center;
+}
+nav a {
+    font-size: 12px;
+    text-decoration: none;
+    color: #444;
+    
+}
+nav a:hover {
+    color: #222;
+    
+}
+
+.navigation-container{
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    min-width: 1080px;
+    padding: 15px 0;
+    border-bottom: 1px solid #ccc ;
+}
+
+.nav-right-buttons {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.nav-button{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+}
+.right{
+    
+    padding-left: 100px;
+}
+.nav-icon{
+    padding-right: 15px;
+}

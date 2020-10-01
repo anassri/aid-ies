@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-
+import '../css/campaign.css'
 import { useSelector, useDispatch } from 'react-redux';
 import {getCampaigns} from '../store/campaign';
 import CampaignItems from './CampaignItems';
@@ -12,10 +12,6 @@ const useStyles = makeStyles((theme) => ({
     
     root: {
         flexGrow: 1,
-        maxWidth: 1080,
-        display: 'flex',
-        justifyContent: 'center',
-        
     },
     paper: {
         padding: theme.spacing(2),
@@ -35,7 +31,7 @@ const CampaignBrowser = () => {
         return null;
     }
     return (
-        <div className={classes.root}>
+        <div className={classes.root} className='campaign-browser'>
             <Grid container 
                 direction="row"
                 justify="center"
