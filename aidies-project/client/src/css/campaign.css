@@ -25,6 +25,7 @@
 .image-container img{
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 .charity-info{
     padding-top: 10px;
@@ -85,15 +86,44 @@
 .items-other-info{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: flex-end;
     margin: 10px;
 }
 .card-container{
     display: flex;
     flex-direction: column;
-    align-content: space-around;
-    height: 470px;
+    align-content: space-between;
+    /* height: 540px; */
 }
-.items-other-info-container{
-    justify-self: flex-end;
+.bid{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 10px;
+}
+.bid div{
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.current-bid{
+    text-align: right;
+}
+.MuiCardActions-root.stats-container{
+    display: block;
+}
+.MuiCardActions-root.items-other-info-container{
+    display: block;
+    
+}
+.current-bid{
+    color: #60b660;
+}
+
+.remaining.counter.progress-bar{
+    color: #ee3737;
+    display: flex;
+    flex-direction: column ;
+    
 }

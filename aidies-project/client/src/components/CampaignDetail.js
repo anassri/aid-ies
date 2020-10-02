@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { useParams, useHistory } from 'react-router-dom';
 
-import { getOneCampaign, bid, setLocation } from '../store/campaign';
+import { getOneCampaign, bid, setLocation, deleteCampaign } from '../store/campaign';
 import { DetermineBid, DetermineTimeRemaining } from './CampaignUtils';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, Button, Menu, MenuItem} from '@material-ui/core';
@@ -82,6 +82,16 @@ const CampaignDetail = ({ needLogin}) => {
     };
 
     const handleClose = () => {
+        
+        setAnchorEl(null);
+    };
+    const handleDelete = () => {
+        dispatch(deleteCampaign(id))
+        history.push('/');
+        setAnchorEl(null);
+    };
+    const handleEdit = () => {
+        
         setAnchorEl(null);
     };
     return (
@@ -110,8 +120,8 @@ const CampaignDetail = ({ needLogin}) => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>Edit</MenuItem>
-                                <MenuItem onClick={handleClose} className={classes.delete}>Delete</MenuItem>
+                                <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                                <MenuItem onClick={handleDelete} className={classes.delete}>Delete</MenuItem>
                             </Menu>
                         </div>
                      : 
