@@ -12,11 +12,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import '../css/campaign.css';
+
 
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
-        height: 470,
     },
     media: {
         height: 250,
@@ -29,7 +30,7 @@ const CampaignItems = ({ campaign }) => {
     const classes = useStyles();
 
     return (
-        <Card className={classes.root}>
+        <Card className={classes.root} className="card-container">
             <CardActionArea>
                 <Link key={campaign.id} to={`/campaign/${campaign.id}`}>
                     <CardMedia
@@ -51,8 +52,14 @@ const CampaignItems = ({ campaign }) => {
                     </Typography>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-                
+            <CardActions className="items-other-info-container">
+                <div className="items-other-info">
+                    <div className="category">{campaign.Category.name}</div>
+                    <div className="location">
+                        <div className="nav-icon"><i className="fas fa-map-marker-alt"></i></div>
+                        <div>{campaign.User.location}</div>
+                    </div>
+                </div>
             </CardActions>
         </Card>
     );

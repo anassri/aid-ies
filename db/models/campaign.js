@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
     image: {
       allowNull: false,
       type: DataTypes.STRING,
-      unique: true,
     },
     story: {
       allowNull: false,
@@ -26,10 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     closingDate: {
       allowNull: false,
       type: DataTypes.DATE
-    },
-    completed: {
-      allowNull: false,
-      type: DataTypes.BOOLEAN
     },
     userId: {
       allowNull: false,

@@ -167,7 +167,7 @@ const SignupPanel = (props) => {
                 required
                 multiline
                 rows={4}
-                autoComplete="birography"
+                autoComplete="biography"
                 id="outlined-multiline"
                 value={bio}
                     onChange={(e) => setBio(e.target.value)}

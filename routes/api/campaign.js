@@ -1,11 +1,9 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { check, validationResult } = require('express-validator');
 const { getUserToken, authenticated } = require('./auth');
-const bcrypt = require('bcryptjs');
 
 const { Campaign, User, Charity, Category, Bid } = require('../../db/models');
-const user = require('../../db/models/user');
+
 
 const router = express.Router();
 
@@ -18,7 +16,7 @@ router.get('/', asyncHandler(async (_req, res) => {
         },
         {
             model: Charity,
-            attributes: ["name"]
+            attributes: ["name", "bio", "website"]
         },
         {
             model: Category,
@@ -28,7 +26,7 @@ router.get('/', asyncHandler(async (_req, res) => {
             model: Bid,
             attributes: ["userId", "bid"]    
         }],
-        order: [["id", "ASC"]] 
+        order: [["closingDate", "ASC"]] 
         
     })
     res.json(campaigns);
@@ -41,7 +39,7 @@ const getCampaignById = async (id) => {
         },
         {
             model: Charity,
-            attributes: ["name"]
+            attributes: ["name", "bio", "website"]
         },
         {
             model: Category,
@@ -56,10 +54,13 @@ const getCampaignById = async (id) => {
     return campaign;
 }
 router.get('/:id', asyncHandler(async (req, res) => {
+
+    console.log("here, wrong");
     const campaign = await getCampaignById(parseInt(req.params.id))
     res.json(campaign);
     
 }))
+
 router.post('/:id/bid', asyncHandler(async (req, res) => {
     const { value,userId } = req.body;
     await Bid.create({campaignId: parseInt(req.params.id), userId, bid: value.toString()})
@@ -67,4 +68,5 @@ router.post('/:id/bid', asyncHandler(async (req, res) => {
     res.json(campaign);
     
 }))
+
 module.exports = router;
