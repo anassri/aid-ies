@@ -53,6 +53,26 @@ export const getCampaigns = () => {
         }
     };
 };
+export const deleteCampaign = (id) => {
+    return async dispatch => {
+        const response = await fetch(`/api/campaign/${id}/delete`, {
+            method: 'delete',
+            headers: { 'Content-Type': 'application/json' },
+        });
+    };
+};
+export const searchCampaigns = (keyword) => {
+    return async dispatch => {
+        console.log(keyword);
+        const response = await fetch(`/api/search/${keyword}`);
+
+        if (response.ok) {
+            const data = await response.json();
+            
+            dispatch(load(data));
+        }
+    };
+};
 export const createCampaign = ({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }) => {
     return async dispatch => {
         console.log('creating');
