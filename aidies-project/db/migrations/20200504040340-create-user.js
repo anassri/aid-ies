@@ -42,9 +42,6 @@ module.exports = {
       facebook: {
         type: Sequelize.STRING,
       },
-      tokenId: {
-        type: Sequelize.STRING,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

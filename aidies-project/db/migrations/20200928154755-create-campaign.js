@@ -20,7 +20,6 @@ module.exports = {
       image: {
         allowNull: false,
         type: Sequelize.STRING,
-        unique: true,
       },
       story: {
         allowNull: false,
@@ -33,10 +32,6 @@ module.exports = {
       closingDate: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      completed: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN
       },
       userId: {
         allowNull: false,
