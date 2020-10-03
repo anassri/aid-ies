@@ -12,7 +12,9 @@ nav a:hover {
     color: #222;
     
 }
-
+.logo{
+    position: relative;
+}
 .navigation-container{
     display: inline-flex;
     flex-direction: row;
@@ -40,4 +42,7 @@ nav a:hover {
 }
 .nav-icon{
     padding-right: 15px;
+}
+.dashboard-btn{
+    margin-left: 40px;
 }

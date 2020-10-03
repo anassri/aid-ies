@@ -1,35 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { DetermineBid, DetermineTimeRemaining } from './CampaignUtils';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+import { formatDistance, differenceInSeconds, parseISO } from 'date-fns'
+import '../css/campaign.css';
+
 
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
-        height: 470,
     },
     media: {
         height: 250,
     },
+    progress: {
+        width: '20%',
+    }
 });
-
-
 
 const CampaignItems = ({ campaign }) => {
     const classes = useStyles();
+    const [progress, setProgess] = useState(0);
+
+    const start = parseISO(campaign.createdAt);
+    const end = parseISO(campaign.closingDate);
+    const currentDate = new Date();
+    console.log(end)
+    const total = differenceInSeconds(end, start);
+    const elapsed = differenceInSeconds(end, currentDate);
+    console.log(total);
+    console.log(elapsed);
+    const elapsedPercent = (parseInt(elapsed) * 100) / parseInt(total);
+    console.log(elapsedPercent);
+    useEffect(()=>{
+        setProgess(elapsedPercent);
+        
+    }, [])
+    
 
     return (
-        <Card className={classes.root}>
+        <Card className={`${classes.root} card-container`}>
             <CardActionArea>
                 <Link key={campaign.id} to={`/campaign/${campaign.id}`}>
                     <CardMedia
@@ -51,40 +71,37 @@ const CampaignItems = ({ campaign }) => {
                     </Typography>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-                
-            </CardActions>
-        </Card>
-    );
-    return (
-        <div className="nav-entry">
-            <Link key={campaign.id} to={`/campaign/${campaign.id}`}>
-                <img
-                    className="nav-campaign-image"
-                    src={campaign.image}
-                    alt={campaign.name}
-                    width="300"
-                />
-            </Link>
-            <div>
-                <div className="primary-text">{campaign.name}</div>
-                <div className="secondary-text">{campaign.summary}</div>
-                <div className="campaign-owner">by {campaign.User.firstName} {campaign.User.lastName} for {campaign.Charity.name}</div>
+            <CardActions className="stats-container">
                 <div className="bid time-left">
                     <div className="current-bid">
-                        <DetermineBid campaign={campaign} />
+                        <Typography gutterBottom variant="body1" component="h2">
+                            <DetermineBid campaign={campaign} />
+                        </Typography>
                     </div>
-                    <div className="remaining">
-                        <DetermineTimeRemaining closingDate={campaign.closingDate} createdAt={campaign.createdAt} />
+                    <div className="remaining counter progress-bar">
+                        <Typography gutterBottom variant="body1" component="h2">
+                            <DetermineTimeRemaining closingDate={campaign.closingDate} createdAt={campaign.createdAt} />
+                        </Typography>
+                        <div className={classes.progress}>
+                            <LinearProgress variant="determinate" value={progress} />
+                        </div>
                     </div>
                 </div>
-                <div className="bread-crumps">
+            </CardActions>
+            <CardActions className="items-other-info-container">
+                <div className="items-other-info">
+                    <Typography variant="body1" color="textSecondary" component="p">
                     <div className="category">{campaign.Category.name}</div>
-                    <div className="location">{campaign.User.location}</div>
+                    </Typography>
+                    <div className="location">
+                        <div className="nav-icon"><i className="fas fa-map-marker-alt"></i></div>
+                        <Typography variant="body1" color="textSecondary" component="p">
+                            {campaign.User.location}
+                        </Typography>
+                    </div>
                 </div>
-            </div>
-            
-        </div>
+            </CardActions>
+        </Card>
     );
 }
 

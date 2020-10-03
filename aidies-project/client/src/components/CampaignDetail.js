@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useParams, useHistory } from 'react-router-dom';
 
-import { getOneCampaign, bid, setLocation } from '../store/campaign';
+import { getOneCampaign, bid, setLocation, deleteCampaign } from '../store/campaign';
 import { DetermineBid, DetermineTimeRemaining } from './CampaignUtils';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, Button, Menu, MenuItem} from '@material-ui/core';
@@ -59,7 +59,7 @@ const CampaignDetail = ({ needLogin}) => {
     if(!campaign || !campaign.User){
         return null;
     }
-    const bidsDesc = campaign.Bids.slice(0).reverse();
+    // const bidsDesc = campaign.Bids.slice(0).reverse();
     
     const handleBid = () => {
         if (needLogin){
@@ -82,6 +82,16 @@ const CampaignDetail = ({ needLogin}) => {
     };
 
     const handleClose = () => {
+        
+        setAnchorEl(null);
+    };
+    const handleDelete = () => {
+        dispatch(deleteCampaign(id))
+        history.push('/');
+        setAnchorEl(null);
+    };
+    const handleEdit = () => {
+        
         setAnchorEl(null);
     };
     return (
@@ -110,8 +120,8 @@ const CampaignDetail = ({ needLogin}) => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>Edit</MenuItem>
-                                <MenuItem onClick={handleClose} className={classes.delete}>Delete</MenuItem>
+                                <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                                <MenuItem onClick={handleDelete} className={classes.delete}>Delete</MenuItem>
                             </Menu>
                         </div>
                      : 
@@ -144,8 +154,23 @@ const CampaignDetail = ({ needLogin}) => {
                         </div>
                     </div>
                     <div className="information-tabs">
-                        
+                        <Typography variant="h6" component="h2">
+                            About The Campaign
+                        </Typography>
+                        <Typography variant="body2" component="h2">
                             {campaign.story}
+                        </Typography>
+                        <Typography variant="h6" component="h2" className="charity-info">
+                            About The Charity
+                        </Typography>
+                        <Typography variant="body2" component="h2">
+                            {campaign.Charity.bio}
+                        </Typography>
+                        <Link to={campaign.Charity.website} className="charity-website">
+                            <Typography variant="subtitle2" component="h2" >
+                                {campaign.Charity.website}
+                            </Typography>
+                        </Link>
                     </div>
                     
                 </div>

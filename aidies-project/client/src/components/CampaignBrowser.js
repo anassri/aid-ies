@@ -36,7 +36,7 @@ const CampaignBrowser = () => {
                 direction="row"
                 justify="center"
                 spacing={3}>
-                {campaigns.map((campaign) => <Grid item xs={4}><CampaignItems key={campaign.id} campaign={campaign} /></Grid>)}
+                {campaigns.map((campaign) => <Grid key={campaign.id} item xs={4}><CampaignItems  campaign={campaign} /></Grid>)}
             </Grid>
         </div>
     );
