@@ -1,4 +1,4 @@
-nav {
+nav footer{
     display: flex;
     justify-content: center;
 }
@@ -45,4 +45,29 @@ nav a:hover {
 }
 .dashboard-btn{
     margin-left: 40px;
+}
+.footer-container{
+    /* text-align: center; */
+    margin-top: auto;
+    flex-shrink: 0;
+    width: 90%;
+    min-width: 1080px;
+    padding: 25px 0;
+    border-top: 1px solid #ccc ;
+}
+.copyright.MuiTypography-root{
+    margin-top: 12px;
+}
+.logo.footer{
+    margin-top: 20px;
+}
+.category-filter{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc ;
+}
+.category-button{
+    margin: 0 10px;
 }

@@ -90,13 +90,13 @@ const CampaignDetail = () => {
         setAnchorEl(null);
     };
     const handleEdit = () => {
-        
-        setAnchorEl(null);
+        history.push(`/campaign/${id}/edit`);
     };
+    
     return (
-        <Card className={classes.root} className="detail-card">
+        <Card className={`${classes.root} detail-card`}>
             
-            <div className={classes.details} className="campaign-main-container">
+            <div className={`${classes.details} campaign-main-container`}>
                 <div className="image-container">
                     <img
                         className="campaign-image"

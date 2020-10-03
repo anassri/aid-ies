@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatDistance, differenceInSeconds, parseISO } from 'date-fns'
 import { setHighest } from '../store/campaign';
 import { useDispatch } from 'react-redux';
@@ -37,7 +37,7 @@ export const DetermineBid = ({campaign}) => {
 
     }, [highest])
     if (highest) {
-        return <div className="current-bid-number">Current Bid ${highest}</div>
+        return `Current Bid $${highest}`;
     }
-    return <div className="current-bid-number">Starting Price ${campaign.startingPrice}</div>
+    return `Starting Price $${campaign.startingPrice}`;
 }

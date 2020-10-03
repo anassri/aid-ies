@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-import { setLocation, getCharities, createCampaign, getCategories } from '../store/campaign';
+import { getCharities, createCampaign, getCategories } from '../store/campaign';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, Button, FormControl, Grid, InputLabel, Select, MenuItem, TextField, IconButton} from '@material-ui/core';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
@@ -44,29 +44,28 @@ const CampaignCreate = () => {
     const [closingDate, setClosingDate] = useState('2020-10-26T18:36');
     const [charity, setCharity] = useState(2);
     const [category, setCategory] = useState(3);
-
+    const [button, setButton] = useState('Start a campaign');
+    
     const classes = useStyles();
     const history = useHistory();
-    const location = useLocation();
-    const needLogin = useSelector(state => !state.authentication.user.id);
+    const dispatch = useDispatch();
+
     const userId = useSelector(state => state.authentication.user.id);
     const charities = useSelector(state => state.campaign.charities);
     const categories = useSelector(state => state.campaign.categories);
-    
-    const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getCategories());
         dispatch(getCharities());
     }, []); 
     
-   
     const handleCreate = (e) => {
         e.preventDefault();
         dispatch(createCampaign({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }));
         history.push("/"); 
     }
     return (
-        <Card className={classes.root} className="create-card">
+        <Card className={`${classes.root} create-card`} >
             <div className="image-container">
                 <img
                     className="campaign-image"
@@ -121,7 +120,7 @@ const CampaignCreate = () => {
                                 Upload
                             </Button>
                         </label>
-                        <input accept="image/*" className={classes.input} id="icon-button-file" type="file" value={image} onChange={(e) => setImage(e.target.value)}/>
+                        <input accept="image/*" className={classes.input} id="icon-button-file" type="file"/>
                         <label htmlFor="icon-button-file"> {image}
                             <IconButton style={{color:'222'}} aria-label="upload picture" component="span">
                                 <PhotoCamera />
@@ -206,7 +205,7 @@ const CampaignCreate = () => {
                     </Grid>
                     <Grid item xs={12} sm={12}>
                         <Button onClick={handleCreate} size="large" variant="contained" className={classes.button} >
-                            Start a campaign
+                            {button}
                         </Button>
                     </Grid>
                     
