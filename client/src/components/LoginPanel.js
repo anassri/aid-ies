@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect, NavLink, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/authentication';
 
@@ -17,14 +17,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(5),
+
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -46,7 +44,6 @@ const LoginPanel = (props) => {
     const dispatch = useDispatch();
     const userId = useSelector(state => state.authentication.user.id);
     const location = useSelector(state => state.campaign.previousLocation);
-    const history = useHistory();
     const classes = useStyles();
 
     const handleSubmit = (e) =>{

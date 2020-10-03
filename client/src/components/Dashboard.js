@@ -1,10 +1,16 @@
-import React from 'react';
+import React, {useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import CampaignItems from './CampaignItems';
+import {getUserCampaigns, getUserfavorites} from '../store/dashboard';
+import Grid from '@material-ui/core/Grid';
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -44,21 +50,38 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
-        height: 600,
+        height: '100%',
+        minHeight: 500,
+        boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+        marginTop: 20,
     },
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
     },
+    content: {
+        maxWidth: 1080,
+    }
+   
 }));
 
 export default function Dashboard() {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
+    const userId = useSelector(state => state.authentication.user.id);
+    const campaigns = useSelector(state => state.dashboard.userCampaigns);
+    const favorites = useSelector(state => state.dashboard.favorites);
+    const dispatch = useDispatch();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    const handleMyCampaigns = () =>{
+        dispatch(getUserCampaigns(userId))
+    }
+    const handleFavorites = () =>{
+        dispatch(getUserfavorites(userId))
+    }
     return (
         <div className={classes.root}>
             <Tabs
@@ -69,35 +92,41 @@ export default function Dashboard() {
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
             >
-                <Tab label="Item One" {...a11yProps(0)} />
-                <Tab label="Item Two" {...a11yProps(1)} />
-                <Tab label="Item Three" {...a11yProps(2)} />
-                <Tab label="Item Four" {...a11yProps(3)} />
-                <Tab label="Item Five" {...a11yProps(4)} />
-                <Tab label="Item Six" {...a11yProps(5)} />
-                <Tab label="Item Seven" {...a11yProps(6)} />
+                <Tab label="Won Campaigns" {...a11yProps(0)} />
+                <Tab label="My Campaigns" {...a11yProps(1)} onClick={handleMyCampaigns}/>
+                <Tab label="My Favorites" {...a11yProps(2)} onClick={handleFavorites}/>
+                <Tab label="My Bids" {...a11yProps(3)} />
+                <Tab label="My Profile" {...a11yProps(4)} />\
             </Tabs>
-            <TabPanel value={value} index={0}>
-                Item One
-      </TabPanel>
-            <TabPanel value={value} index={1}>
-                Item Two
-      </TabPanel>
-            <TabPanel value={value} index={2}>
-                Item Three
-      </TabPanel>
-            <TabPanel value={value} index={3}>
-                Item Four
-      </TabPanel>
-            <TabPanel value={value} index={4}>
-                Item Five
-      </TabPanel>
-            <TabPanel value={value} index={5}>
-                Item Six
-      </TabPanel>
-            <TabPanel value={value} index={6}>
-                Item Seven
-      </TabPanel>
+            <div className={classes.content}>
+                <TabPanel value={value} index={0}>
+                    Won Campaigns
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <Grid container
+                        direction="row"
+                        justify="flex-start"
+                        spacing={3}>
+                            
+                        {campaigns.map((campaign) => <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid>)}
+                    </Grid>
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <Grid container
+                        direction="row"
+                        justify="flex-start"
+                        spacing={3}>
+
+                        {favorites.map((favorite) => <Grid key={favorite.id} item xs={4}><CampaignItems campaign={favorite} /></Grid>)}
+                    </Grid>
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                    My Bids
+                </TabPanel>
+                <TabPanel value={value} index={4}>
+                    My Profile
+                </TabPanel>
+            </div>
         </div>
     );
 }

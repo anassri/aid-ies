@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../css/navigation.css';
 import logo from '../images/aidies-logo.svg';
-import { NavLink, Redirect, useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 import { Button, InputBase} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
-import { searchCampaigns, getCampaigns } from '../store/campaign';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchCampaigns, getCampaigns, getCategories } from '../store/campaign';
+
+import ToggleButton from '@material-ui/lab/ToggleButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -65,10 +67,19 @@ function Navigation(props) {
     const dispatch = useDispatch();
     const [keyword, setKeyword] = useState('');
     const history = useHistory();
-    
+
+    const [selected, setSelected] = useState(false);
+    const categories = useSelector(state => state.campaign.categories);
+
+    useEffect(()=>{
+        dispatch(getCategories());
+    }, [])
+
+    const handleToggle = e => {
+        
+    }
     const handleSearch = (e) => {
         e.preventDefault()
-        console.log(keyword);
         if(!keyword){
             dispatch(getCampaigns());
         } else  dispatch(searchCampaigns(keyword));
@@ -124,6 +135,18 @@ function Navigation(props) {
                             ? <NavLink to="/login" activeClassName="active"><Button>LOGIN</Button></NavLink> 
                     : <LogoutButton/>} </div>
                 </div>
+            </div>
+            <div className="category-filter">
+                {categories.map(category => <div key={category.id} className="category-button"><ToggleButton
+                                            id={category.name}
+                                            value="check"
+                                            selected={selected}
+                                            onChange={handleToggle}
+                                            >
+                                            {category.name}
+                                            </ToggleButton></div>
+                                )}
+                
             </div>
         </nav>
     )

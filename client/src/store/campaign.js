@@ -55,7 +55,7 @@ export const getCampaigns = () => {
 };
 export const deleteCampaign = (id) => {
     return async dispatch => {
-        const response = await fetch(`/api/campaign/${id}/delete`, {
+        await fetch(`/api/campaign/${id}/delete`, {
             method: 'delete',
             headers: { 'Content-Type': 'application/json' },
         });
@@ -75,23 +75,15 @@ export const searchCampaigns = (keyword) => {
 };
 export const createCampaign = ({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }) => {
     return async dispatch => {
-        console.log('creating');
-        const response = await fetch('/api/create', {
+        await fetch('/api/create', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }),
         });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            // dispatch(loadOne(data));
-        }
     };
 };
 export const getCharities = () => {
     return async dispatch => {
-        console.log('gettin charities');
         const response = await fetch('/api/charity');
 
         if (response.ok) {
@@ -103,7 +95,6 @@ export const getCharities = () => {
 };
 export const getCategories = () => {
     return async dispatch => {
-        console.log('gettin categories');
         const response = await fetch('/api/category');
 
         if (response.ok) {
@@ -122,6 +113,18 @@ export const getOneCampaign = (id) => {
             const data = await response.json();
             dispatch(loadOne(data));
         }
+    };
+};
+export const editCampaign = ({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category, id }) => {
+    return async dispatch => {
+        await fetch(`/api/campaign/${id}/edit`, {
+            method: "put",
+            headers: {
+                "Content-Type": "Application/json"
+            },
+            body: JSON.stringify({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }),
+        });
+
     };
 };
 export const bid = (id, value, userId) => {
@@ -145,7 +148,7 @@ export const bid = (id, value, userId) => {
 export const setHighest = (value) => dispatch => dispatch(setHighestBid(value));
 export const setLocation = (location) => dispatch => dispatch(setPreviousLocation(location));
 
-export default function reducer(state = { list: [], charities: [], categories: [] }, action) {
+export default function reducer(state = { list: [], current:{ closingDate: ''}, charities: [], categories: [] }, action) {
     switch (action.type) {
         case LOAD:
             return { ...state, list: action.campaign };
