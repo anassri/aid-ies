@@ -2,11 +2,18 @@ import Cookies from "js-cookie";
 
 export const SET_USER = 'aidies/authentication/SET_TOKEN';
 export const REMOVE_USER = 'aidies/authentication/REMOVE_TOKEN';
+export const ERRORS = 'aidies/authentication/ERRORS';
 
 export const setUser = (user) => {
     return {
         type: SET_USER,
         user
+    }
+}
+export const setErrors = (errors) => {
+    return {
+        type: ERRORS,
+        errors
     }
 }
 
@@ -23,10 +30,12 @@ export const login = (email, password) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
         });
-
         if (response.ok) {
             const data = await response.json();
             dispatch(setUser(data));
+        } else {
+            const errors = await response.json();
+            dispatch(setErrors(errors));
         }
     };
 };
@@ -37,7 +46,6 @@ export const logout = () => async dispatch => {
         method: "delete"
     });
     if (res.ok) {
-        console.log('response')
         dispatch(removeUser());
     }
 }
@@ -55,8 +63,7 @@ export const signup = ({ firstName, lastName, email, password, confirmPassword, 
             dispatch(setUser(data));
         } else {
             const errors = await response.json();
-            console.log(errors); //create action creator
-            
+            dispatch(setErrors(errors));
         }
     };
 };
@@ -75,15 +82,17 @@ function loadUser() {
             Cookies.remove("token");
         }
     }
-    return { user: { id: null } };
+    return { user: { id: null }, errors: [] };
 }
 
 export default function reducer(state = loadUser(), action) {
     switch (action.type) {
         case SET_USER:
-            return action.user;
+            return {...state, user: action.user};
         case REMOVE_USER:
-            return { user: { id: null } };
+            return { user: { id: null }, errors: []};
+        case ERRORS:
+            return {...state, errors: action.errors};
         default:
             return state;
     }
