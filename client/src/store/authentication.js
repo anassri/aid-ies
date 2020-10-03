@@ -18,7 +18,7 @@ export const removeUser = () => {
 
 export const login = (email, password) => {
     return async dispatch => {
-        const response = await fetch('api/session', {
+        const response = await fetch('/api/session', {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
@@ -33,7 +33,7 @@ export const login = (email, password) => {
 
 export const logout = () => async dispatch => {
     console.log('logout thunk')
-    const res = await fetch('api/session', {
+    const res = await fetch('/api/session', {
         method: "delete"
     });
     if (res.ok) {
@@ -44,7 +44,7 @@ export const logout = () => async dispatch => {
 
 export const signup = ({ firstName, lastName, email, password, confirmPassword, location, bio, website, instagram, facebook }) => {
     return async dispatch => {
-        const response = await fetch('api/user', {
+        const response = await fetch('/api/user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ firstName, lastName, email, password, confirmPassword, location, bio, website, instagram, facebook }),
@@ -83,7 +83,7 @@ export default function reducer(state = loadUser(), action) {
         case SET_USER:
             return action.user;
         case REMOVE_USER:
-            return {};
+            return { user: { id: null } };
         default:
             return state;
     }

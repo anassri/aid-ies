@@ -3,13 +3,15 @@ import { Redirect, NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/authentication';
 
-import {Button, 
-        CssBaseline, 
-        TextField, 
-        Link, 
-        Grid, 
-        Typography, 
-        Container} from '@material-ui/core';
+import {
+    Button,
+    CssBaseline,
+    TextField,
+    Link,
+    Grid,
+    Typography,
+    Container,
+} from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -42,7 +44,7 @@ const LoginPanel = (props) => {
     const [email, setEmail] = useState('demo@example.com');
     const [password, setPassword] = useState('password');
     const dispatch = useDispatch();
-    const user = useSelector(state => state.authentication.user.id);
+    const userId = useSelector(state => state.authentication.user.id);
     const location = useSelector(state => state.campaign.previousLocation);
     const history = useHistory();
     const classes = useStyles();
@@ -51,7 +53,7 @@ const LoginPanel = (props) => {
         e.preventDefault();
         dispatch(login(email, password));
     }
-    if (user!== null) {
+    if (userId!== null) {
         if(!location){
             return <Redirect to="/" />
         }

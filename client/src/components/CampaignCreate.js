@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: 14,
     }
 }));
-const CampaignCreate = ({ needLogin }) => {
+const CampaignCreate = () => {
     const [campaignName, setCampaignName] = useState('New awesome campaign');
     const [summary, setSummary] = useState('new awesome summary');
     const [story, setStory] = useState('great story');
@@ -48,6 +48,7 @@ const CampaignCreate = ({ needLogin }) => {
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
+    const needLogin = useSelector(state => !state.authentication.user.id);
     const userId = useSelector(state => state.authentication.user.id);
     const charities = useSelector(state => state.campaign.charities);
     const categories = useSelector(state => state.campaign.categories);
@@ -58,11 +59,7 @@ const CampaignCreate = ({ needLogin }) => {
         dispatch(getCharities());
     }, []); 
     
-    
-    if (needLogin) {
-        dispatch(setLocation(location.pathname));
-        return <Redirect to="/login" />
-    }
+   
     const handleCreate = (e) => {
         e.preventDefault();
         dispatch(createCampaign({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }));

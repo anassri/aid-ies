@@ -17,7 +17,7 @@ const LogoutButton = () => {
         return <Redirect to="/login" />
     }
     return (
-        <a href='' onClick={handleLogout}><Button>LOGOUT</Button></a>
+        <Button onClick={handleLogout}>LOGOUT</Button>
     );
 }
 

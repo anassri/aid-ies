@@ -31,7 +31,7 @@ const CampaignBrowser = () => {
         return null;
     }
     return (
-        <div className={classes.root} className='campaign-browser'>
+        <div className={classes.root} className="campaign-browser">
             <Grid container 
                 direction="row"
                 justify="center"

@@ -88,7 +88,7 @@ function Navigation(props) {
                         <NavLink to="/dashboard" activeClassName="active"><Button>dashboard</Button></NavLink>
                     </div>
                 </div>
-                <div className="logo"><NavLink to={`/`}>
+                <div className="logo"><NavLink to="/">
                     <img
                         className="nav-image"
                         src={logo}
