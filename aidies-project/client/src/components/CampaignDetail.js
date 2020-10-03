@@ -41,13 +41,15 @@ const useStyles = makeStyles({
         color: '#FF0000'
     }
 });
-const CampaignDetail = ({ needLogin}) => {
+const CampaignDetail = () => {
     const classes = useStyles();
     const {id} = useParams();
     const history = useHistory();
     const location = useLocation();
+    const needLogin = useSelector(state => !state.authentication.user.id);
+
     const campaign = useSelector(state => state.campaign.current);
-    let highest = useSelector(state => state.campaign.highestBid);
+    const highest = useSelector(state => state.campaign.highestBid);
     const userId = useSelector(state => state.authentication.user.id);
     const [anchorEl, setAnchorEl] = useState(null);
     
@@ -66,14 +68,11 @@ const CampaignDetail = ({ needLogin}) => {
             dispatch(setLocation(location.pathname));
             return history.push("/login"); 
         }
-        if (!highest) {
-            let increaseBid = parseInt(campaign.startingPrice) + 5;
-            dispatch(bid(id, increaseBid, userId));
-            
-        } else {
-            let increaseBid = highest + 5;
-            dispatch(bid(id, increaseBid, userId));
+        let increaseBid = parseInt(campaign.startingPrice) + 5;
+        if (highest) {
+            increaseBid = highest + 5;
         }
+        dispatch(bid(id, increaseBid, userId));
     }
 
 

@@ -13,9 +13,10 @@ export const DetermineTimeRemaining = ({ closingDate, createdAt }) => {
     const duration = seconds => formatDistance(0, seconds * 1000, { includeSeconds: true })
 
     useEffect(() => {
-        setInterval(() => {
+        const counter = setInterval(() => {
             setRemainingSeconds(previousSeconds => previousSeconds - 1)
         }, 1000);
+        return () => clearInterval(counter);
     }, [])
 
     return `${duration(remainingSeconds)} Remaining`;
@@ -31,7 +32,10 @@ export const DetermineBid = ({campaign}) => {
             }
         });        
     }
-    dispatch(setHighest(highest));
+    useEffect(()=>{
+        dispatch(setHighest(highest));
+
+    }, [highest])
     if (highest) {
         return <div className="current-bid-number">Current Bid ${highest}</div>
     }
