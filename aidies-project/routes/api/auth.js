@@ -13,7 +13,7 @@ const getUserToken = (user) =>{
         secret,
         { expiresIn: Number.parseInt(expiresIn, 10) }
     );
-    return { jti: jwtid, token: token };
+    return token;
 }
 
 const restoreUser = (req, res, next) => {

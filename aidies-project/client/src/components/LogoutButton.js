@@ -2,6 +2,7 @@ import React, {  } from "react";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/authentication';
+import { Button } from '@material-ui/core';
 
 
 const LogoutButton = () => {
@@ -16,7 +17,7 @@ const LogoutButton = () => {
         return <Redirect to="/login" />
     }
     return (
-        <a href='' onClick={handleLogout}>Logout</a>
+        <a href='' onClick={handleLogout}><Button>LOGOUT</Button></a>
     );
 }
 

@@ -2,6 +2,46 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../store/authentication';
+import {
+    Button,
+    CssBaseline,
+    TextField,
+    Link,
+    Grid,
+    Typography,
+    Container,
+    fade
+} from '@material-ui/core';
+
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+    TextField: {
+        border: '1px solid #666',  
+    },
+    '&$focused': {
+        backgroundColor: '#fff',
+        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+        borderColor: '#333',
+    },
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+        
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
 
 const SignupPanel = (props) => {
     const [firstName, setFirstName] = useState('');
@@ -15,10 +55,10 @@ const SignupPanel = (props) => {
     const [instagram, setInstagram] = useState('');
     const [facebook, setFacebook] = useState('');
     
-    const user = useSelector(state => state.authentication.user);
-
+    const classes = useStyles();
+    const user = useSelector(state => state.authentication.user.id);
     const dispatch = useDispatch();
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(signup({ firstName, lastName, email, password, confirmPassword, bio, location, website, instagram, facebook}));
@@ -27,72 +67,172 @@ const SignupPanel = (props) => {
     if (user) {
         return <Redirect to="/" />
     }
-    return (
-        <main>
-            <form onSubmit={handleSubmit}>
-                <input type="text"
-                    placeholder="First Name"
-                    value={firstName}
-                    onChange={(e) => {
-                        setFirstName(e.target.value);
-                    }} />
-                <input type="text"
-                    placeholder="Last Name"
-                    value={lastName}
-                    onChange={(e) => {
-                        setlastName(e.target.value);
-                    }} />
-                <input type="text"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => {
-                        setEmail(e.target.value);
-                    }} />
-                <input type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => {
-                        setPassword(e.target.value);
-                    }} />
-                <input type="password"
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    onChange={(e) => {
-                        setConfirmPassword(e.target.value);
-                    }} />
-                <textarea 
-                    placeholder="Enter a bio"
-                    value={bio}
-                    onChange={(e) => {
-                        setBio(e.target.value);
-                    }} />
-                <input type="url"
-                    placeholder="Website"
-                    value={website}
-                    onChange={(e) => {
-                        setWebsite(e.target.value);
-                    }} />
-                <input type="text"
-                    placeholder="Location (ex. Atlanta, GA)"
-                    value={location}
-                    onChange={(e) => {
-                        setLocation(e.target.value);
-                    }} />
-                <input type="url"
-                    placeholder="Instagram"
-                    value={instagram}
-                    onChange={(e) => {
-                        setInstagram(e.target.value);
-                    }} />
-                <input type="url"
-                    placeholder="Facebook"
-                    value={facebook}
-                    onChange={(e) => {
-                        setFacebook(e.target.value);
-                    }} />
-                <button type="submit">Sign Up</button>
-            </form>
-        </main>
+        return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+                        Sign up
+        </Typography>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+                value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+                value={lastName}
+                    onChange={(e) => setlastName(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirm-password"
+                label="Confirm Password"
+                type="password"
+                id="confirm-password"
+                autoComplete="confirm-current-password"
+                value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="location"
+                label="Location (ex. Atlanta, GA, USA)"
+                type="text"
+                id="location"
+                autoComplete="location"
+                value={location}
+                    onChange={(e) => setLocation(e.target.value)} 
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                label="Biorgraphy"
+                name="biography"
+                fullWidth
+                required
+                multiline
+                rows={4}
+                autoComplete="birography"
+                id="outlined-multiline"
+                value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                name="website"
+                label="Website"
+                type="url"
+                id="website"
+                autoComplete="website"
+                value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                name="instagram"
+                label="Instagram"
+                type="url"
+                id="instagram"
+                autoComplete="instagram"
+                value={instagram}
+                    onChange={(e) => setInstagram(e.target.value)} 
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                name="facebook"
+                label="Facebook"
+                type="url"
+                id="facebook"
+                autoComplete="facebook"
+                value={instagram}
+                    onChange={(e) => setFacebook(e.target.value)} 
+              />
+            </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign Up
+          </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link href="/login" variant="body2">
+                {"Already have an account? Sign in"}
+              </Link>
+            </Grid>
+          </Grid>
+        </Grid>
+        </form>
+      </div>
+        </Container>
+
     )
 }
 

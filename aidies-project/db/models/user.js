@@ -47,9 +47,6 @@ module.exports = (sequelize, DataTypes) => {
     facebook: {
       type: DataTypes.STRING,
     },
-    tokenId: {
-      type: DataTypes.STRING,
-    },
   }, {});
 
   User.associate = function(models) {
@@ -59,11 +56,7 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'campaignId',
       through: 'Favorite'
     });
-    /* User.belongsToMany(models.Campaign, {
-      foreignKey: 'userId',
-      otherKey: 'campaignId',
-      through: 'bids'
-    }); */
+   
     User.hasMany(models.Bid, { foreignKey: "userId" });
 
   };
