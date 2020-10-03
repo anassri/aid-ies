@@ -12,13 +12,12 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import { formatDistance, differenceInSeconds, parseISO } from 'date-fns'
+import {  differenceInSeconds, parseISO } from 'date-fns'
 import '../css/campaign.css';
 
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: 345,
     },
     media: {
         height: 250,
@@ -35,16 +34,11 @@ const CampaignItems = ({ campaign }) => {
     const start = parseISO(campaign.createdAt);
     const end = parseISO(campaign.closingDate);
     const currentDate = new Date();
-    console.log(end)
     const total = differenceInSeconds(end, start);
     const elapsed = differenceInSeconds(end, currentDate);
-    console.log(total);
-    console.log(elapsed);
     const elapsedPercent = (parseInt(elapsed) * 100) / parseInt(total);
-    console.log(elapsedPercent);
     useEffect(()=>{
         setProgess(elapsedPercent);
-        
     }, [])
     
 
@@ -91,7 +85,7 @@ const CampaignItems = ({ campaign }) => {
             <CardActions className="items-other-info-container">
                 <div className="items-other-info">
                     <Typography variant="body1" color="textSecondary" component="p">
-                    <div className="category">{campaign.Category.name}</div>
+                        {campaign.Category.name}
                     </Typography>
                     <div className="location">
                         <div className="nav-icon"><i className="fas fa-map-marker-alt"></i></div>

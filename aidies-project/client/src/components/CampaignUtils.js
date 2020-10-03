@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatDistance, differenceInSeconds, parseISO } from 'date-fns'
 import { setHighest } from '../store/campaign';
 import { useDispatch } from 'react-redux';
@@ -13,9 +13,10 @@ export const DetermineTimeRemaining = ({ closingDate, createdAt }) => {
     const duration = seconds => formatDistance(0, seconds * 1000, { includeSeconds: true })
 
     useEffect(() => {
-        setInterval(() => {
+        const counter = setInterval(() => {
             setRemainingSeconds(previousSeconds => previousSeconds - 1)
         }, 1000);
+        return () => clearInterval(counter);
     }, [])
 
     return `${duration(remainingSeconds)} Remaining`;
@@ -31,9 +32,12 @@ export const DetermineBid = ({campaign}) => {
             }
         });        
     }
-    dispatch(setHighest(highest));
+    useEffect(()=>{
+        dispatch(setHighest(highest));
+
+    }, [highest])
     if (highest) {
-        return <div className="current-bid-number">Current Bid ${highest}</div>
+        return `Current Bid $${highest}`;
     }
-    return <div className="current-bid-number">Starting Price ${campaign.startingPrice}</div>
+    return `Starting Price $${campaign.startingPrice}`;
 }

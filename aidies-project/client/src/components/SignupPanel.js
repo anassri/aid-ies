@@ -3,14 +3,14 @@ import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../store/authentication';
 import {
-    Button,
-    CssBaseline,
-    TextField,
-    Link,
-    Grid,
-    Typography,
-    Container,
-    fade
+  Button,
+  CssBaseline,
+  TextField,
+  Link,
+  Grid,
+  Typography,
+  Container,
+  fade
 } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,23 +24,26 @@ const useStyles = makeStyles((theme) => ({
         borderColor: '#333',
     },
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(3),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(3),
         
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        backgroundColor: '#222',
+        color: '#fff',
     },
+    link: {
+      color: '#222',
+    }
 }));
 
 const SignupPanel = (props) => {
@@ -87,7 +90,7 @@ const SignupPanel = (props) => {
                 label="First Name"
                 autoFocus
                 value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -100,7 +103,7 @@ const SignupPanel = (props) => {
                 name="lastName"
                 autoComplete="lname"
                 value={lastName}
-                    onChange={(e) => setlastName(e.target.value)}
+                onChange={(e) => setlastName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -113,7 +116,7 @@ const SignupPanel = (props) => {
                 name="email"
                 autoComplete="email"
                 value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -127,7 +130,7 @@ const SignupPanel = (props) => {
                 id="password"
                 autoComplete="current-password"
                 value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -141,7 +144,7 @@ const SignupPanel = (props) => {
                 id="confirm-password"
                 autoComplete="confirm-current-password"
                 value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -155,7 +158,7 @@ const SignupPanel = (props) => {
                 id="location"
                 autoComplete="location"
                 value={location}
-                    onChange={(e) => setLocation(e.target.value)} 
+                onChange={(e) => setLocation(e.target.value)} 
               />
             </Grid>
             <Grid item xs={12}>
@@ -170,7 +173,7 @@ const SignupPanel = (props) => {
                 autoComplete="biography"
                 id="outlined-multiline"
                 value={bio}
-                    onChange={(e) => setBio(e.target.value)}
+                onChange={(e) => setBio(e.target.value)}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -183,7 +186,7 @@ const SignupPanel = (props) => {
                 id="website"
                 autoComplete="website"
                 value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
+                onChange={(e) => setWebsite(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -196,7 +199,7 @@ const SignupPanel = (props) => {
                 id="instagram"
                 autoComplete="instagram"
                 value={instagram}
-                    onChange={(e) => setInstagram(e.target.value)} 
+                onChange={(e) => setInstagram(e.target.value)} 
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -209,7 +212,7 @@ const SignupPanel = (props) => {
                 id="facebook"
                 autoComplete="facebook"
                 value={instagram}
-                    onChange={(e) => setFacebook(e.target.value)} 
+                onChange={(e) => setFacebook(e.target.value)} 
               />
             </Grid>
           <Button
@@ -223,7 +226,7 @@ const SignupPanel = (props) => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link href="/login" variant="body2" className={classes.link}>
                 {"Already have an account? Sign in"}
               </Link>
             </Grid>
