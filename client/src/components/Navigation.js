@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchCampaigns, getCampaigns, getCategories, filterCampaigns } from '../store/campaign';
 
-import ToggleButton from '@material-ui/lab/ToggleButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,14 +61,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Navigation(props) {
+function Navigation() {
+    
     const classes = useStyles();
     const dispatch = useDispatch();
     const [keyword, setKeyword] = useState('');
     const history = useHistory();
     const location = useLocation();
+
     const [selected, setSelected] = useState('');
+
     const categories = useSelector(state => state.campaign.categories);
+    const needLogin = useSelector(state => !state.authentication.user.id);
 
     useEffect(()=>{
         dispatch(getCategories());
@@ -83,7 +86,6 @@ function Navigation(props) {
             dispatch(getCampaigns());
             setSelected('');
         }
-
     }
     const handleSearch = (e) => {
         e.preventDefault()
@@ -138,15 +140,17 @@ function Navigation(props) {
                     </div>
                     <div className="nav-button right" >
                         <div className="nav-icon"><i className="fas fa-sign-in-alt"></i></div>
-                    {props.needLogin 
+                            {needLogin 
                             ? <NavLink to="/login" activeClassName="active"><Button>LOGIN</Button></NavLink> 
-                    : <LogoutButton/>} </div>
+                            : <LogoutButton/>} 
+                        </div>
                 </div>
             </div>
             <div className={location.pathname === '/' ? "category-filter" : "back-button-container"}>
                 {location.pathname === '/'
                     ? categories.map(category => <div key={category.id} className="category-button"><Button onClick={handleFilter}>{category.name}</Button></div>)
                     : <div className="nav-icon"><Link to='/' className="back-button-icon"><i className="fas fa-long-arrow-alt-left fa-2x back-icon"></i><Button>Go back</Button></Link></div>}
+
             </div>
         </nav>
     )
