@@ -12,6 +12,8 @@ import {
   Container,
   fade
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+
 
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
         
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(3, 1, 2),
         backgroundColor: '#222',
         color: '#fff',
     },
@@ -60,6 +62,8 @@ const SignupPanel = (props) => {
     
     const classes = useStyles();
     const user = useSelector(state => state.authentication.user.id);
+    const errors = useSelector(state => state.authentication.errors);
+
     const dispatch = useDispatch();
     
     const handleSubmit = (e) => {
@@ -78,6 +82,11 @@ const SignupPanel = (props) => {
                         Sign up
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          {errors.length
+                  ? <Alert variant="outlined" severity="error" style={{ marginBottom: 15 }}>
+              {errors.map((error, i) => <li key={i} className="error-list-item">{error}</li>)}
+            </Alert>
+            : null}
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -219,12 +228,11 @@ const SignupPanel = (props) => {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container>
             <Grid item>
               <Link href="/login" variant="body2" className={classes.link}>
                 {"Already have an account? Sign in"}

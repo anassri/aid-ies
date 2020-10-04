@@ -2,6 +2,14 @@ import Cookies from "js-cookie";
 
 export const SET_USER = 'aidies/authentication/SET_TOKEN';
 export const REMOVE_USER = 'aidies/authentication/REMOVE_TOKEN';
+export const ERRORS = 'aidies/authentication/ERRORS';
+
+export const setErrors = (errors) => {
+    return {
+        type: ERRORS,
+        errors
+    }
+}
 
 export const setUser = (user) => {
     return {
@@ -27,6 +35,9 @@ export const login = (email, password) => {
         if (response.ok) {
             const data = await response.json();
             dispatch(setUser(data));
+        } else {
+            const errors = await response.json();
+            dispatch(setErrors(errors));
         }
     };
 };
@@ -55,7 +66,7 @@ export const signup = ({ firstName, lastName, email, password, confirmPassword, 
             dispatch(setUser(data));
         } else {
             const errors = await response.json();
-            console.log(errors); //create action creator
+            dispatch(setErrors(errors));
             
         }
     };
@@ -75,7 +86,7 @@ function loadUser() {
             Cookies.remove("token");
         }
     }
-    return { user: { id: null } };
+    return { user: { id: null }, errors: []  };
 }
 
 export default function reducer(state = loadUser(), action) {
@@ -83,7 +94,9 @@ export default function reducer(state = loadUser(), action) {
         case SET_USER:
             return action.user;
         case REMOVE_USER:
-            return { user: { id: null } };
+            return { user: { id: null }, errors: []  };
+        case ERRORS:
+            return { ...state, errors: action.errors };
         default:
             return state;
     }
