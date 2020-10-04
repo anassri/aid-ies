@@ -13,10 +13,11 @@ const useStyles = makeStyles((theme) => ({
         '& > *': {
             margin: theme.spacing(1),
         },
+        flexDirection: 'row'
     },
     details: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
     },
     input: {
         display: 'none',
