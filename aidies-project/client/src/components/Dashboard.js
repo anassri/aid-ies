@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import CampaignItems from './CampaignItems';
 import { getUserCampaigns, getUserFavorites, getCampaigns} from '../store/dashboard';
+import { clearExistingErrors } from '../store/authentication';
 import Grid from '@material-ui/core/Grid';
 import DashboardBids from './DashboardBids';
 import UserEdit from './UserEdit';
@@ -77,9 +78,7 @@ export default function Dashboard() {
 
     const dispatch = useDispatch();
 
-    useEffect(()=>{
-        dispatch(getCampaigns());
-    },[])
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -109,13 +108,13 @@ export default function Dashboard() {
             <div className={classes.content}>
                 <TabPanel value={value} index={0}>
                     <Typography variant="h3" color="textSecondary" component="p" style={{opacity: 0.3, justifyContent:'center', }}>
-                        You've won nothing yet.
+                        No won campaigns yet.
                         <Grid container
                             direction="row"
                             justify="flex-start"
                             spacing={3}>
 
-                            {allCampaigns.map((campaign) => { <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid>})}
+                            {/* {allCampaigns.map((campaign) => { <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid>})} */}
                         </Grid>
                     </Typography>
                 </TabPanel>
@@ -124,7 +123,7 @@ export default function Dashboard() {
                         direction="row"
                         justify="flex-start"
                         spacing={3}>
-                            
+
                         {campaigns.map((campaign) => <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid>)}
                     </Grid>
                 </TabPanel>

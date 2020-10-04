@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getCharities, createCampaign, getCategories } from '../store/campaign';
+import { editUser} from '../store/authentication';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, Typography, Button, FormControl, Grid, InputLabel, Select, MenuItem, TextField, IconButton } from '@material-ui/core';
+import { Typography, Button, Grid, TextField } from '@material-ui/core';
 import '../css/campaign.css';
+import Alert from '@material-ui/lab/Alert';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,12 +54,15 @@ const UserEdit = () => {
     const [website, setWebsite] = useState('');
     const [instagram, setInstagram] = useState('');
     const [facebook, setFacebook] = useState('');
+    const [submitted, setSubmitted] = useState(false);
 
     const classes = useStyles();
     const dispatch = useDispatch();
 
     const user = useSelector(state => state.authentication.user);
-   
+    const id = useSelector(state => state.authentication.user.id);
+    const errors = useSelector(state => state.authentication.errors);
+
     useEffect(() => {
         setFirstName(user.firstName);
         setlastName(user.lastName);
@@ -71,6 +76,8 @@ const UserEdit = () => {
 
     const handleEdit = (e) => {
         e.preventDefault();
+        dispatch(editUser({ firstName, lastName, email, password, confirmPassword, bio, location, website, instagram, facebook, id }))
+        setSubmitted(true);
     }
     return (
         <div className={classes.form}>
@@ -78,156 +85,166 @@ const UserEdit = () => {
                 Edit User
             </Typography>
 
-            <Grid container spacing={2} direction="column">
-                <div className={classes.adjFields}>
-                    <Grid item xs={12} sm={6} >
-                        <TextField
-                            autoComplete="fname"
-                            name="firstName"
-                            variant="outlined"
-                            required
-                            fullWidth
-                            id="firstName"
-                            label="First Name"
-                            autoFocus
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6} style={{ marginLeft: 12}}>
-                        <TextField
-                            variant="outlined"
-                            required
-                            fullWidth
-                            id="lastName"
-                            label="Last Name"
-                            name="lastName"
-                            autoComplete="lname"
-                            value={lastName}
-                            onChange={(e) => setlastName(e.target.value)}
-                        />
-                    </Grid>
-                </div>
-                <Grid item xs={12} sm={12}>
-                    <TextField
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </Grid>
-                <div className={classes.adjFields}>
-                    <Grid item xs={12} sm={6}>
+            <form className={classes.form} noValidate onSubmit={handleEdit}>
+                {(submitted)
+                ? <Alert variant="outlined" severity="success" style={{ marginBottom: 15 }}> Information Changed</Alert>
+                : null}
+                {/* {(errors !== undefined && errors.length)
+                    ? <Alert variant="outlined" severity="error" style={{ marginBottom: 15 }}>
+                        {errors.map((error, i) => <li key={i} className="error-list-item">{error}</li>)}
+                    </Alert>
+                    : null} */}
+                <Grid container spacing={2} direction="column">
+                    <div className={classes.adjFields}>
+                        <Grid item xs={12} sm={6} >
+                            <TextField
+                                autoComplete="fname"
+                                name="firstName"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="firstName"
+                                label="First Name"
+                                autoFocus
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6} style={{ marginLeft: 12}}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="lastName"
+                                label="Last Name"
+                                name="lastName"
+                                autoComplete="lname"
+                                value={lastName}
+                                onChange={(e) => setlastName(e.target.value)}
+                            />
+                        </Grid>
+                    </div>
+                    <Grid item xs={12} sm={12}>
                         <TextField
                             variant="outlined"
                             required
                             fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6} style={{ marginLeft: 12 }}>
+                    <div className={classes.adjFields}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6} style={{ marginLeft: 12 }}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="confirm-password"
+                                label="Confirm Password"
+                                type="password"
+                                id="confirm-password"
+                                autoComplete="confirm-current-password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                        </Grid>
+                    </div>
+                    <Grid item xs={12} sm={12}>
                         <TextField
                             variant="outlined"
                             required
                             fullWidth
-                            name="confirm-password"
-                            label="Confirm Password"
-                            type="password"
-                            id="confirm-password"
-                            autoComplete="confirm-current-password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            name="location"
+                            label="Location (ex. Atlanta, GA, USA)"
+                            type="text"
+                            id="location"
+                            autoComplete="location"
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
                         />
                     </Grid>
-                </div>
-                <Grid item xs={12} sm={12}>
-                    <TextField
-                        variant="outlined"
-                        required
-                        fullWidth
-                        name="location"
-                        label="Location (ex. Atlanta, GA, USA)"
-                        type="text"
-                        id="location"
-                        autoComplete="location"
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                    <TextField
-                        variant="outlined"
-                        label="Biorgraphy"
-                        name="biography"
-                        fullWidth
-                        required
-                        multiline
-                        rows={4}
-                        autoComplete="biography"
-                        id="outlined-multiline"
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                    <TextField
-                        variant="outlined"
-                        fullWidth
-                        name="website"
-                        label="Website"
-                        type="url"
-                        id="website"
-                        autoComplete="website"
-                        value={website}
-                        onChange={(e) => setWebsite(e.target.value)}
-                    />
-                </Grid>
-                <div className={classes.adjFields}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={12}>
+                        <TextField
+                            variant="outlined"
+                            label="Biorgraphy"
+                            name="biography"
+                            fullWidth
+                            required
+                            multiline
+                            rows={4}
+                            autoComplete="biography"
+                            id="outlined-multiline"
+                            value={bio}
+                            onChange={(e) => setBio(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
                         <TextField
                             variant="outlined"
                             fullWidth
-                            name="instagram"
-                            label="Instagram"
+                            name="website"
+                            label="Website"
                             type="url"
-                            id="instagram"
-                            autoComplete="instagram"
-                            value={instagram}
-                            onChange={(e) => setInstagram(e.target.value)}
+                            id="website"
+                            autoComplete="website"
+                            value={website}
+                            onChange={(e) => setWebsite(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6} style={{ marginLeft: 12 }}>
-                        <TextField
-                            variant="outlined"
-                            fullWidth
-                            name="facebook"
-                            label="Facebook"
-                            type="url"
-                            id="facebook"
-                            autoComplete="facebook"
-                            value={facebook}
-                            onChange={(e) => setFacebook(e.target.value)}
-                        />
+                    <div className={classes.adjFields}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                name="instagram"
+                                label="Instagram"
+                                type="url"
+                                id="instagram"
+                                autoComplete="instagram"
+                                value={instagram}
+                                onChange={(e) => setInstagram(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6} style={{ marginLeft: 12 }}>
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                name="facebook"
+                                label="Facebook"
+                                type="url"
+                                id="facebook"
+                                autoComplete="facebook"
+                                value={facebook}
+                                onChange={(e) => setFacebook(e.target.value)}
+                            />
+                        </Grid>
+                    </div>
+                    <Grid item xs={12} sm={12}>
+                        <Button type="submit" size="large" variant="contained" className={classes.button} >
+                            Submit Change
+                        </Button>
                     </Grid>
-                </div>
-                <Grid item xs={12} sm={12}>
-                    <Button onClick={handleEdit} size="large" variant="contained" className={classes.button} >
-                        Submit Change
-                    </Button>
-                </Grid>
 
-            </Grid>
+                </Grid>
+            </form>
         </div>
     )
 }
