@@ -54,8 +54,10 @@ const getCampaignById = async (id) => {
     return campaign;
 }
 router.get('/:id', asyncHandler(async (req, res) => {
-    const campaign = await Campaign.findByPk(parseInt(req.params.id));
-    campaign.destroy();
+
+    const campaign = await getCampaignById(parseInt(req.params.id))
+    res.json(campaign);
+
 }))
 
 router.post('/:id/bid', asyncHandler(async (req, res) => {
@@ -67,6 +69,7 @@ router.post('/:id/bid', asyncHandler(async (req, res) => {
 }))
 router.delete('/:id/delete', asyncHandler(async (req, res) => {
     const campaign = await getCampaignById(parseInt(req.params.id))
+    campaign.destroy();
     res.json(campaign);
     
 }))

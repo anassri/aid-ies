@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Category.associate = function(models) {
-    Category.hasMany(models.Campaign, { foreignKey: 'categoryId' });
+    Category.hasMany(models.Campaign, { foreignKey: 'categoryId', onDelete: 'cascade' });
   };
   return Category;
 };

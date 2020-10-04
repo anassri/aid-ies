@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
   Charity.associate = function(models) {
-    Charity.hasMany(models.Campaign, { foreignKey: 'charityId'})
+    Charity.hasMany(models.Campaign, { foreignKey: 'charityId', onDelete: 'cascade'})
   };
   return Charity;
 };
