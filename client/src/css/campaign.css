@@ -100,7 +100,7 @@
 .bid{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin: 0 10px;
 }
 .bid div{
