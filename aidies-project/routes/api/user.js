@@ -5,6 +5,7 @@ const { getUserToken, authenticated } = require('./auth');
 const bcrypt = require('bcryptjs');
 
 const { User } = require('../../db/models');
+const { parse } = require('date-fns');
 
 const router = express.Router();
 
@@ -57,6 +58,29 @@ const userValidation =[
         .withMessage('Please Provide a bio')
 ];
    
+const editValidation =[
+    check('firstName')
+        .exists({ checkFalsy: true })
+        .withMessage('Please Provide a first name')
+        .isLength({ max: 20 })
+        .withMessage('First Name must not be more than 50 characters'),
+    check('lastName')
+        .exists({ checkFalsy: true })
+        .withMessage('Please Provide a last name')
+        .isLength({ max: 20 })
+        .withMessage('last Name must not be more than 50 characters'),
+    check('email')
+        .exists({ checkFalsy: true })
+        .withMessage('Please Provide an email')
+        .isLength({ max: 50 })
+        .withMessage('email must not be more than 255 characters')
+        .isEmail()
+        .withMessage('Email address is not a valid email'),
+    check('bio')
+        .exists({ checkFalsy: true })
+        .withMessage('Please Provide a bio')
+];
+   
 router.post('/', userValidation, asyncHandler(async function (req, res, next) {
     
     const { firstName, lastName, email, password, bio, location, website, instagram, facebook } = req.body;
@@ -69,7 +93,36 @@ router.post('/', userValidation, asyncHandler(async function (req, res, next) {
     } else {
         const hashedPassword = await bcrypt.hashSync(password, 10);
         const user = await User.create({ firstName, lastName, email, hashedPassword, bio, location, website, instagram, facebook });
-        const { jti, token } = getUserToken(user);
+        const token = getUserToken(user);
+        res.cookie('aidies/authentication/token', token);
+        res.status(201).json({ user: user.toSafeObject() });
+    }
+}));
+router.put('/:id/edit', editValidation, asyncHandler(async function (req, res, next) {
+    const user = await User.findByPk(parseInt(req.params.id));
+    const { firstName, lastName, email, password, bio, location, website, instagram, facebook } = req.body;
+    
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email;
+    if(password){
+        const hashedPassword = await bcrypt.hashSync(password, 10);
+        user.hashedPassword = hashedPassword;
+    }
+    user.bio = bio;
+    user.location = location;
+    user.website = website;
+    user.instagram = instagram;
+    user.facebook = facebook;
+    
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+        const errors = validationErrors.array().map((err) => err.msg);
+        res.status(400).json(errors);
+        
+    } else {
+        await user.save();
+        const token = getUserToken(user);
         res.cookie('aidies/authentication/token', token);
         res.status(201).json({ user: user.toSafeObject() });
     }

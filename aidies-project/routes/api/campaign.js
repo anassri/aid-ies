@@ -55,7 +55,6 @@ const getCampaignById = async (id) => {
 }
 router.get('/:id', asyncHandler(async (req, res) => {
 
-    console.log("here, wrong");
     const campaign = await getCampaignById(parseInt(req.params.id))
     res.json(campaign);
     
@@ -65,6 +64,22 @@ router.post('/:id/bid', asyncHandler(async (req, res) => {
     const { value,userId } = req.body;
     await Bid.create({campaignId: parseInt(req.params.id), userId, bid: value.toString()})
     const campaign = await getCampaignById(parseInt(req.params.id))
+    res.json(campaign);
+    
+}))
+router.put('/:id/edit', asyncHandler(async (req, res) => {
+    const { campaignName, summary, story, startingPrice, closingDate, userId, charity, category } = req.body;
+    const campaign = await Campaign.findByPk(parseInt(req.params.id));
+    campaign.name = campaignName;
+    campaign.summary = summary;
+    campaign.story = story;
+    campaign.startingPrice = startingPrice;
+    campaign.closingDate = new Date(closingDate);
+    campaign.charityId = charity;
+    campaign.categoryId = category;
+
+    await campaign.save();
+    console.log('saved');
     res.json(campaign);
     
 }))

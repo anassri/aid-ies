@@ -12,6 +12,8 @@ import {
   Container,
   fade
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+
 
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
@@ -39,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(3, 1, 2),
         backgroundColor: '#222',
         color: '#fff',
     },
@@ -62,7 +64,8 @@ const SignupPanel = (props) => {
     
     const classes = useStyles();
     const user = useSelector(state => state.authentication.user.id);
-  const errors = useSelector(state => state.authentication.errors);
+    const errors = useSelector(state => state.authentication.errors);
+
 
     const dispatch = useDispatch();
     
@@ -220,7 +223,7 @@ const SignupPanel = (props) => {
                 type="url"
                 id="facebook"
                 autoComplete="facebook"
-                value={instagram}
+                value={facebook}
                 onChange={(e) => setFacebook(e.target.value)} 
               />
             </Grid>
@@ -232,7 +235,7 @@ const SignupPanel = (props) => {
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container>
             <Grid item>
               <Link href="/login" variant="body2" className={classes.link}>
                 {"Already have an account? Sign in"}

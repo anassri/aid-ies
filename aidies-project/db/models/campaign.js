@@ -51,16 +51,13 @@ module.exports = (sequelize, DataTypes) => {
     Campaign.belongsTo(models.Charity, { foreignKey: 'charityId' });
     Campaign.belongsTo(models.Category, { foreignKey: 'categoryId' });
     Campaign.belongsToMany(models.User, {
+      as: 'items',
       foreignKey: 'campaignId',
       otherKey: 'userId',
       through: 'Favorite'
     });
     Campaign.hasMany(models.Bid, { foreignKey: "campaignId" });
-    /* Campaign.belongsToMany(models.User, {
-      foreignKey: 'campaignId',
-      otherKey: 'userId',
-      through: 'Bids'
-    }); */
+    
   };
   return Campaign;
 };

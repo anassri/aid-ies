@@ -74,7 +74,7 @@ const CampaignItems = ({ campaign }) => {
                     </div>
                     <div className="remaining counter progress-bar">
                         <Typography gutterBottom variant="body1" component="h2">
-                            <DetermineTimeRemaining closingDate={campaign.closingDate} createdAt={campaign.createdAt} />
+                            <DetermineTimeRemaining isExpired={campaign.isExpired} closingDate={campaign.closingDate} createdAt={campaign.createdAt} />
                         </Typography>
                         <div className={classes.progress}>
                             <LinearProgress variant="determinate" value={progress} />

@@ -20,6 +20,12 @@ const password =
         .withMessage('Please provide a password');
 
 router.put('/', email, password, asyncHandler(async function (req, res, next) {
+    const validationErrors = validationResult(req);
+
+    if (!validationErrors.isEmpty()) {
+        const errors = validationErrors.array().map((err) => err.msg);
+        res.status(400).json(errors);
+    }
     const { email, password } = req.body;
     const user = await User.findOne({
         where: { email },
@@ -31,7 +37,7 @@ router.put('/', email, password, asyncHandler(async function (req, res, next) {
         err.status = 401;
         err.title = "Login failed";
         err.errors = ["The provided email and password were invalid, please try again."];
-        return next(err);   
+        res.status(400).json(err.errors);
     }
     
     const token  = getUserToken(user);

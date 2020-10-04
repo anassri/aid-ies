@@ -3,7 +3,7 @@ import { formatDistance, differenceInSeconds, parseISO } from 'date-fns'
 import { setHighest } from '../store/campaign';
 import { useDispatch } from 'react-redux';
 
-export const DetermineTimeRemaining = ({ closingDate, createdAt }) => {
+export const DetermineTimeRemaining = ({ isExpired, closingDate, createdAt }) => {
     const start = parseISO(createdAt);
     const end = parseISO(closingDate);
     const currentDate = new Date();
@@ -18,26 +18,32 @@ export const DetermineTimeRemaining = ({ closingDate, createdAt }) => {
         }, 1000);
         return () => clearInterval(counter);
     }, [])
-
+    if(isExpired) return "Closed";
     return `${duration(remainingSeconds)} Remaining`;
 }
 
 export const DetermineBid = ({campaign}) => {
     const dispatch = useDispatch();
     let highest = null
+    let id = null
     if (campaign.Bids.length) {
         campaign.Bids.forEach(el => {
             if (highest < Number.parseInt(el.bid)) {
                 highest = Number.parseInt(el.bid)
+                id = el.userId;
             }
         });        
     }
     useEffect(()=>{
-        dispatch(setHighest(highest));
+        dispatch(setHighest(highest,id));
 
     }, [highest])
-    if (highest) {
+    if (highest && !campaign.isExpired) {
         return `Current Bid $${highest}`;
+    } else if (highest && campaign.isExpired){
+        return `Final Bid $${highest}`;
+    } else if (!highest && campaign.isExpired){
+        return `No Bids`;
     }
     return `Starting Price $${campaign.startingPrice}`;
 }

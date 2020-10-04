@@ -5,6 +5,8 @@ import {getCampaigns} from '../store/campaign';
 import CampaignItems from './CampaignItems';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 
 const useStyles = makeStyles((theme) => ({
     
@@ -33,12 +35,23 @@ const CampaignBrowser = () => {
     return (
     
         <div className={`${classes.root} campaign-browser`} >
-            
+            <Typography gutterBottom variant="h4" component="h2" className="campaign-header-label campaign-text">
+                Active Campaigns
+            </Typography>
             <Grid container 
                 direction="row"
                 justify="center"
                 spacing={3}>
-                {campaigns.map((campaign) => <Grid key={campaign.id} item xs={4}><CampaignItems  campaign={campaign} /></Grid>)}
+                {campaigns.map((campaign) => { if(!campaign.isExpired) return <Grid key={campaign.id} item xs={4}><CampaignItems  campaign={campaign} /></Grid> })}
+            </Grid>
+            <Typography gutterBottom variant="h4" component="h2" className="campaign-header-label campaign-text">
+                Closed Campaigns
+            </Typography>
+            <Grid container
+                direction="row"
+                justify="center"
+                spacing={3}>
+                {campaigns.map((campaign) => { if (campaign.isExpired) return <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid> })}
             </Grid>
         </div>
     
