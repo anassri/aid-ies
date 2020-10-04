@@ -3,7 +3,7 @@ import { formatDistance, differenceInSeconds, parseISO } from 'date-fns'
 import { setHighest } from '../store/campaign';
 import { useDispatch } from 'react-redux';
 
-export const DetermineTimeRemaining = ({ closingDate, createdAt }) => {
+export const DetermineTimeRemaining = ({ isExpired, closingDate, createdAt }) => {
     const start = parseISO(createdAt);
     const end = parseISO(closingDate);
     const currentDate = new Date();
@@ -18,7 +18,7 @@ export const DetermineTimeRemaining = ({ closingDate, createdAt }) => {
         }, 1000);
         return () => clearInterval(counter);
     }, [])
-
+    if(isExpired) return "Closed";
     return `${duration(remainingSeconds)} Remaining`;
 }
 
