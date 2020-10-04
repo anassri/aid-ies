@@ -52,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     User.hasMany(models.Campaign, { foreignKey: 'userId' });
     User.belongsToMany(models.Campaign, {
+      as: 'groups',
       foreignKey: 'userId',
       otherKey: 'campaignId',
       through: 'Favorite'
@@ -67,6 +68,7 @@ module.exports = (sequelize, DataTypes) => {
       lastName: this.lastName,
       email: this.email,
       bio: this.bio,
+      location: this.location,
       website: this.website,
       instagram: this.instagram,
       facebook: this.facebook,

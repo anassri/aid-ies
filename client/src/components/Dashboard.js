@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -8,9 +8,10 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import CampaignItems from './CampaignItems';
-import {getUserCampaigns, getUserfavorites} from '../store/dashboard';
+import { getUserCampaigns, getUserFavorites, getCampaigns} from '../store/dashboard';
 import Grid from '@material-ui/core/Grid';
-
+import DashboardBids from './DashboardBids';
+import UserEdit from './UserEdit';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
-        height: '100%',
+        // height: '100%',
         minHeight: 500,
         boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
         marginTop: 20,
@@ -68,10 +69,17 @@ export default function Dashboard() {
     const classes = useStyles();
     const [value, setValue] = useState(0);
     const userId = useSelector(state => state.authentication.user.id);
+    const allCampaigns = useSelector(state => state.campaign.list);
     const campaigns = useSelector(state => state.dashboard.userCampaigns);
     const favorites = useSelector(state => state.dashboard.favorites);
+    const highest = useSelector(state => state.campaign.highestBid);
+    const winningUser = useSelector(state => state.campaign.winningUser);
+
     const dispatch = useDispatch();
 
+    useEffect(()=>{
+        dispatch(getCampaigns());
+    },[])
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -80,7 +88,7 @@ export default function Dashboard() {
         dispatch(getUserCampaigns(userId))
     }
     const handleFavorites = () =>{
-        dispatch(getUserfavorites(userId))
+        dispatch(getUserFavorites(userId))
     }
     return (
         <div className={classes.root}>
@@ -100,7 +108,16 @@ export default function Dashboard() {
             </Tabs>
             <div className={classes.content}>
                 <TabPanel value={value} index={0}>
-                    Won Campaigns
+                    <Typography variant="h3" color="textSecondary" component="p" style={{opacity: 0.3, justifyContent:'center', }}>
+                        You've won nothing yet.
+                        <Grid container
+                            direction="row"
+                            justify="flex-start"
+                            spacing={3}>
+
+                            {allCampaigns.map((campaign) => { <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid>})}
+                        </Grid>
+                    </Typography>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <Grid container
@@ -117,14 +134,14 @@ export default function Dashboard() {
                         justify="flex-start"
                         spacing={3}>
 
-                        {favorites.map((favorite) => <Grid key={favorite.id} item xs={4}><CampaignItems campaign={favorite} /></Grid>)}
+                        {/* {favorites.map((favorite) => <Grid key={favorite.id} item xs={4}><CampaignItems campaign={favorite} /></Grid>)} */}
                     </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={3}>
-                    My Bids
+                    <DashboardBids userId={userId}/>
                 </TabPanel>
                 <TabPanel value={value} index={4}>
-                    My Profile
+                    <UserEdit />
                 </TabPanel>
             </div>
         </div>
