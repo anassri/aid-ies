@@ -54,15 +54,18 @@ const getCampaignById = async (id) => {
     return campaign;
 }
 router.get('/:id', asyncHandler(async (req, res) => {
-
-    const campaign = await getCampaignById(parseInt(req.params.id))
-    res.json(campaign);
-    
+    const campaign = await Campaign.findByPk(parseInt(req.params.id));
+    campaign.destroy();
 }))
 
 router.post('/:id/bid', asyncHandler(async (req, res) => {
     const { value,userId } = req.body;
     await Bid.create({campaignId: parseInt(req.params.id), userId, bid: value.toString()})
+    const campaign = await getCampaignById(parseInt(req.params.id))
+    res.json(campaign);
+    
+}))
+router.delete('/:id/delete', asyncHandler(async (req, res) => {
     const campaign = await getCampaignById(parseInt(req.params.id))
     res.json(campaign);
     
