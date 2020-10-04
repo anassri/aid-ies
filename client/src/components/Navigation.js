@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '../css/navigation.css';
 import logo from '../images/aidies-logo.svg';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useLocation, Link } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 import { Button, InputBase} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchCampaigns, getCampaigns, getCategories } from '../store/campaign';
+import { searchCampaigns, getCampaigns, getCategories, filterCampaigns } from '../store/campaign';
 
 import ToggleButton from '@material-ui/lab/ToggleButton';
 
@@ -67,16 +67,23 @@ function Navigation(props) {
     const dispatch = useDispatch();
     const [keyword, setKeyword] = useState('');
     const history = useHistory();
-
-    const [selected, setSelected] = useState(false);
+    const location = useLocation();
+    const [selected, setSelected] = useState('');
     const categories = useSelector(state => state.campaign.categories);
 
     useEffect(()=>{
         dispatch(getCategories());
     }, [])
 
-    const handleToggle = e => {
-        
+    const handleFilter = e => {
+        if(!selected || selected !== e.target.innerHTML){
+            dispatch(filterCampaigns(e.target.innerHTML));
+            setSelected(e.target.innerHTML);
+        } else if (selected === e.target.innerHTML){
+            dispatch(getCampaigns());
+            setSelected('');
+        }
+
     }
     const handleSearch = (e) => {
         e.preventDefault()
@@ -136,17 +143,10 @@ function Navigation(props) {
                     : <LogoutButton/>} </div>
                 </div>
             </div>
-            <div className="category-filter">
-                {categories.map(category => <div key={category.id} className="category-button"><ToggleButton
-                                            id={category.name}
-                                            value="check"
-                                            selected={selected}
-                                            onChange={handleToggle}
-                                            >
-                                            {category.name}
-                                            </ToggleButton></div>
-                                )}
-                
+            <div className={location.pathname === '/' ? "category-filter" : "back-button-container"}>
+                {location.pathname === '/'
+                    ? categories.map(category => <div key={category.id} className="category-button"><Button onClick={handleFilter}>{category.name}</Button></div>)
+                    : <div className="nav-icon"><Link to='/' className="back-button-icon"><i className="fas fa-long-arrow-alt-left fa-2x back-icon"></i><Button>Go back</Button></Link></div>}
             </div>
         </nav>
     )
