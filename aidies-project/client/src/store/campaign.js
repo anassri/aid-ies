@@ -64,7 +64,6 @@ export const deleteCampaign = (id) => {
 };
 export const searchCampaigns = (keyword) => {
     return async dispatch => {
-        console.log(keyword);
         const response = await fetch(`/api/search/${keyword}`);
 
         if (response.ok) {
@@ -80,7 +79,6 @@ export const filterCampaigns = (keyword) => {
 
         if (response.ok) {
             const data = await response.json();
-
             dispatch(load(data));
         }
     };

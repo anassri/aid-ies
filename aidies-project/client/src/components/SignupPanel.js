@@ -16,6 +16,8 @@ import Alert from '@material-ui/lab/Alert';
 
 
 import { makeStyles } from '@material-ui/core/styles';
+import Alert from '@material-ui/lab/Alert';
+
 const useStyles = makeStyles((theme) => ({
     TextField: {
         border: '1px solid #666',  
@@ -64,6 +66,7 @@ const SignupPanel = (props) => {
     const user = useSelector(state => state.authentication.user.id);
     const errors = useSelector(state => state.authentication.errors);
 
+
     const dispatch = useDispatch();
     
     const handleSubmit = (e) => {
@@ -83,7 +86,7 @@ const SignupPanel = (props) => {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           {errors.length
-                  ? <Alert variant="outlined" severity="error" style={{ marginBottom: 15 }}>
+            ? <Alert variant="outlined" severity="error" style={{marginBottom: 15}}>
               {errors.map((error, i) => <li key={i} className="error-list-item">{error}</li>)}
             </Alert>
             : null}

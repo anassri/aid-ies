@@ -23,6 +23,12 @@ export const setUser = (user) => {
         user
     }
 }
+export const setErrors = (errors) => {
+    return {
+        type: ERRORS,
+        errors
+    }
+}
 
 export const removeUser = () => {
     return {
@@ -37,7 +43,6 @@ export const login = (email, password) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
         });
-
         if (response.ok) {
             const data = await response.json();
             dispatch(setUser(data));
@@ -54,7 +59,6 @@ export const logout = () => async dispatch => {
         method: "delete"
     });
     if (res.ok) {
-        console.log('response')
         dispatch(removeUser());
     }
 }
@@ -73,7 +77,6 @@ export const signup = ({ firstName, lastName, email, password, confirmPassword, 
         } else {
             const errors = await response.json();
             dispatch(setErrors(errors));
-            
         }
     };
 };
@@ -91,7 +94,6 @@ export const editUser = ({ firstName, lastName, email, password, confirmPassword
         } else {
             const errors = await response.json();
             dispatch(setErrors(errors));
-            
         }
     };
 };
@@ -117,7 +119,7 @@ export const clearExistingErrors = () => dispatch => dispatch(clearErrors());
 export default function reducer(state = loadUser(), action) {
     switch (action.type) {
         case SET_USER:
-            return action.user;
+            return {...state, user: action.user};
         case REMOVE_USER:
             return { user: { id: null }, errors: []  };
         case ERRORS:
