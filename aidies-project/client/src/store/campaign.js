@@ -30,10 +30,11 @@ export const loadCategory = (category) => {
         category
     }
 }
-export const setHighestBid = (highestBid) => {
+export const setHighestBid = (highestBid, userId) => {
     return {
         type: SET_HIGHEST_BID,
-        highestBid
+        highestBid,
+        userId
     }
 }
 export const setPreviousLocation = (location) => {
@@ -156,7 +157,7 @@ export const bid = (id, value, userId) => {
     };
 };
 
-export const setHighest = (value) => dispatch => dispatch(setHighestBid(value));
+export const setHighest = (value, id) => dispatch => dispatch(setHighestBid(value, id));
 export const setLocation = (location) => dispatch => dispatch(setPreviousLocation(location));
 
 export default function reducer(state = { list: [], current:{ closingDate: ''}, charities: [], categories: [] }, action) {
@@ -166,7 +167,7 @@ export default function reducer(state = { list: [], current:{ closingDate: ''}, 
         case SET_CURRENT:
             return { ...state, current: action.campaign };
         case SET_HIGHEST_BID:
-            return { ...state, highestBid: action.highestBid };
+            return { ...state, highestBid: action.highestBid, winningUser: action.userId };
         case SET_PREVIOUS_LOCATION:
             return { ...state, previousLocation: action.location };
         case LOAD_CHARITY:

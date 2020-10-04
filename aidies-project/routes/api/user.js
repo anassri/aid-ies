@@ -69,7 +69,7 @@ router.post('/', userValidation, asyncHandler(async function (req, res, next) {
     } else {
         const hashedPassword = await bcrypt.hashSync(password, 10);
         const user = await User.create({ firstName, lastName, email, hashedPassword, bio, location, website, instagram, facebook });
-        const { jti, token } = getUserToken(user);
+        const token = getUserToken(user);
         res.cookie('aidies/authentication/token', token);
         res.status(201).json({ user: user.toSafeObject() });
     }

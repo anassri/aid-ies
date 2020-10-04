@@ -220,7 +220,7 @@ const SignupPanel = (props) => {
                 type="url"
                 id="facebook"
                 autoComplete="facebook"
-                value={instagram}
+                value={facebook}
                 onChange={(e) => setFacebook(e.target.value)} 
               />
             </Grid>

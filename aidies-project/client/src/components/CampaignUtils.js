@@ -25,15 +25,17 @@ export const DetermineTimeRemaining = ({ isExpired, closingDate, createdAt }) =>
 export const DetermineBid = ({campaign}) => {
     const dispatch = useDispatch();
     let highest = null
+    let id = null
     if (campaign.Bids.length) {
         campaign.Bids.forEach(el => {
             if (highest < Number.parseInt(el.bid)) {
                 highest = Number.parseInt(el.bid)
+                id = el.userId;
             }
         });        
     }
     useEffect(()=>{
-        dispatch(setHighest(highest));
+        dispatch(setHighest(highest,id));
 
     }, [highest])
     if (highest) {
