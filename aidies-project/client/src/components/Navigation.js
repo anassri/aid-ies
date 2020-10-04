@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchCampaigns, getCampaigns, getCategories, filterCampaigns } from '../store/campaign';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -67,6 +68,9 @@ function Navigation() {
     const [keyword, setKeyword] = useState('');
     const history = useHistory();
     const location = useLocation();
+
+    const [selected, setSelected] = useState('');
+
     const categories = useSelector(state => state.campaign.categories);
     const needLogin = useSelector(state => !state.authentication.user.id);
 
@@ -75,7 +79,13 @@ function Navigation() {
     }, [])
 
     const handleFilter = e => {
-        dispatch(filterCampaigns(e.target.innerHTML));
+        if(!selected || selected !== e.target.innerHTML){
+            dispatch(filterCampaigns(e.target.innerHTML));
+            setSelected(e.target.innerHTML);
+        } else if (selected === e.target.innerHTML){
+            dispatch(getCampaigns());
+            setSelected('');
+        }
     }
     const handleSearch = (e) => {
         e.preventDefault()
@@ -138,10 +148,9 @@ function Navigation() {
             </div>
             <div className={location.pathname === '/' ? "category-filter" : "back-button-container"}>
                 {location.pathname === '/'
-                ? categories.map(category => <div key={category.id} className="category-button"><Button onClick={handleFilter}>{category.name}</Button></div>)
+                    ? categories.map(category => <div key={category.id} className="category-button"><Button onClick={handleFilter}>{category.name}</Button></div>)
                     : <div className="nav-icon"><Link to='/' className="back-button-icon"><i className="fas fa-long-arrow-alt-left fa-2x back-icon"></i><Button>Go back</Button></Link></div>}
 
-                
             </div>
         </nav>
     )

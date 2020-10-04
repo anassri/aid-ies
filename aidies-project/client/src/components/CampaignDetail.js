@@ -13,7 +13,6 @@ import '../css/campaign.css';
 const useStyles = makeStyles({
     details: {
         display: 'flex',
-        // flexDirection: 'column',
     },
     bullet: {
         display: 'inline-block',

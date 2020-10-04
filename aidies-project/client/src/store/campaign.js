@@ -78,7 +78,6 @@ export const filterCampaigns = (keyword) => {
 
         if (response.ok) {
             const data = await response.json();
-            
             dispatch(load(data));
         }
     };
