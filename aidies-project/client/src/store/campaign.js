@@ -73,6 +73,17 @@ export const searchCampaigns = (keyword) => {
         }
     };
 };
+export const filterCampaigns = (keyword) => {
+    return async dispatch => {
+        const response = await fetch(`/api/filter/${keyword}`);
+
+        if (response.ok) {
+            const data = await response.json();
+
+            dispatch(load(data));
+        }
+    };
+};
 export const createCampaign = ({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }) => {
     return async dispatch => {
         await fetch('/api/create', {
