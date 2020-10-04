@@ -5,7 +5,7 @@
   "scripts": {
     "start": "per-env",
     "start:development": "dotenv nodemon ./bin/www",
-    "start:production": "./bin/www",
+    "start:production": "node ./bin/www",
     "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
