@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   User.associate = function(models) {
-    User.hasMany(models.Campaign, { foreignKey: 'userId' });
+    User.hasMany(models.Campaign, { foreignKey: 'userId', onDelete: 'cascade' });
     User.belongsToMany(models.Campaign, {
       as: 'groups',
       foreignKey: 'userId',
