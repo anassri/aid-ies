@@ -63,7 +63,6 @@ nav a:hover {
 }
 .category-filter, .back-button-container{
     display: flex;
-    justify-content: center;
     margin: 20px 0;
     padding-bottom: 20px;
     border-bottom: 1px solid #ccc ;

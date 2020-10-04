@@ -33,7 +33,7 @@ const App = () => {
   const needLogin = useSelector(state => !state.authentication.user.id);
   return (
     <BrowserRouter>
-      <Navigation needLogin={needLogin}/>
+      <Navigation/>
         <Switch>
             <PrivateRoute exact path="/campaign/create" needLogin={needLogin} component={CampaignCreate} />
             <PrivateRoute exact path="/dashboard" needLogin={needLogin} component={Dashboard} />
