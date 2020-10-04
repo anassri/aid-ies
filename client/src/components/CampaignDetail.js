@@ -136,12 +136,15 @@ const CampaignDetail = () => {
                             <Typography variant="h4" component="h2">
                                 <DetermineBid campaign={campaign} />    
                             </Typography>
-                            <Button onClick={handleBid} size="large" variant="contained" className={classes.button}>
-                                Bid $5
-                            </Button>
+                            {!campaign.isExpired 
+                                ? <Button onClick={handleBid} size="large" variant="contained" className={classes.button}>
+                                    Bid $5
+                                  </Button>
+                                : null}
+                            
                         </div>
                         <Typography variant="h6" component="h2" color="secondary"className="detail-remaining">
-                            <DetermineTimeRemaining closingDate={campaign.closingDate} createdAt={campaign.createdAt} />
+                            <DetermineTimeRemaining isExpired={campaign.isExpired} closingDate={campaign.closingDate} createdAt={campaign.createdAt} />
                         </Typography>
                     </div>
                     <div className="other-info">

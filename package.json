@@ -12,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
+    "date-fns": "^2.16.1",
     "express": "^4.16.4",
     "express-async-handler": "^1.1.4",
     "express-bearer-token": "^2.4.0",

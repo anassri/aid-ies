@@ -38,8 +38,12 @@ export const DetermineBid = ({campaign}) => {
         dispatch(setHighest(highest,id));
 
     }, [highest])
-    if (highest) {
+    if (highest && !campaign.isExpired) {
         return `Current Bid $${highest}`;
+    } else if (highest && campaign.isExpired){
+        return `Final Bid $${highest}`;
+    } else if (!highest && campaign.isExpired){
+        return `No Bids`;
     }
     return `Starting Price $${campaign.startingPrice}`;
 }
