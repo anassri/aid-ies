@@ -23,12 +23,6 @@ export const setUser = (user) => {
         user
     }
 }
-export const setErrors = (errors) => {
-    return {
-        type: ERRORS,
-        errors
-    }
-}
 
 export const removeUser = () => {
     return {
@@ -119,7 +113,7 @@ export const clearExistingErrors = () => dispatch => dispatch(clearErrors());
 export default function reducer(state = loadUser(), action) {
     switch (action.type) {
         case SET_USER:
-            return {...state, user: action.user};
+            return action.user;
         case REMOVE_USER:
             return { user: { id: null }, errors: []  };
         case ERRORS:
