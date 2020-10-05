@@ -11,7 +11,7 @@ import '../css/campaign.css';
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
-            margin: theme.spacing(1),
+            // margin: theme.spacing(1),
         },
         flexDirection: 'row'
     },
@@ -93,8 +93,8 @@ const CampaignCreate = () => {
                         alt={campaignName}
                     />
                 </div>
-                <div className="information-container">
 
+                <div className="information-container details-container" style={{padding:30, width: 580}}>
                     <Typography component="h1" variant="h5" className="campaign-title">
                         Edit A Campaign
                     </Typography>
