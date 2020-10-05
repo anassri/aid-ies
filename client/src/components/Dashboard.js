@@ -128,13 +128,16 @@ export default function Dashboard() {
                     </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    <Grid container
-                        direction="row"
-                        justify="flex-start"
-                        spacing={3}>
+                    <Typography variant="h3" color="textSecondary" component="p" style={{ opacity: 0.3, justifyContent: 'center', }}>
+                        No favorite campaigns yet.
+                        <Grid container
+                            direction="row"
+                            justify="flex-start"
+                            spacing={3}>
 
-                        {/* {favorites.map((favorite) => <Grid key={favorite.id} item xs={4}><CampaignItems campaign={favorite} /></Grid>)} */}
-                    </Grid>
+                            {/* {favorites.map((favorite) => <Grid key={favorite.id} item xs={4}><CampaignItems campaign={favorite} /></Grid>)} */}
+                        </Grid>
+                    </Typography>
                 </TabPanel>
                 <TabPanel value={value} index={3}>
                     <DashboardBids userId={userId}/>

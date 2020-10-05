@@ -12,7 +12,7 @@ import '../css/campaign.css';
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
-            margin: theme.spacing(1),
+            // margin: theme.spacing(1),
         },
     },
     input: {
@@ -73,7 +73,7 @@ const CampaignCreate = () => {
                     alt="placeholder"
                 />
             </div>
-            <div>
+            <div className="information-container details-container" style={{ padding: 30, width: 580 }}>
                 <Typography component="h1" variant="h5" className="campaign-title">
                     Start A Campaign
                 </Typography>
