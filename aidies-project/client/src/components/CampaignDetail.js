@@ -128,11 +128,11 @@ const CampaignDetail = () => {
                     <Typography variant="h3" component="h2">
                         {campaign.name}
                     </Typography>
-                    <Typography variant="subtitle2" component="h2">
-                        By {campaign.User.firstName} {campaign.User.lastName} for {campaign.Charity.name}
+                    <Typography variant="subtitle1" component="h2">
+                        By <span style={{ fontWeight: "bold" }}>{campaign.User.firstName} {campaign.User.lastName}</span> for <span style={{ fontWeight: "bold" }}>{campaign.Charity.name}</span>
                     </Typography>
                     <div className="detail-bid time-left">
-                        <div className="detail-current-bid">
+                        <div className="detail-current-bid" >
                             <Typography variant="h4" component="h2">
                                 <DetermineBid campaign={campaign} />    
                             </Typography>
@@ -162,7 +162,7 @@ const CampaignDetail = () => {
                             {campaign.story}
                         </Typography>
                         <Typography variant="h6" component="h2" className="charity-info">
-                            About The Charity
+                            About {campaign.Charity.name}
                         </Typography>
                         <Typography variant="body2" component="h2">
                             {campaign.Charity.bio}

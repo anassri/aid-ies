@@ -60,8 +60,8 @@ const CampaignItems = ({ campaign }) => {
                     <Typography variant="body1" color="textSecondary" component="p">
                         {campaign.summary}
                     </Typography>
-                    <Typography variant="caption" color="textSecondary" component="p">
-                        By {campaign.User.firstName} {campaign.User.lastName} for {campaign.Charity.name}
+                    <Typography variant="caption" color="textSecondary" component="p" style={{marginTop: 10}}>
+                        By <span style={{ fontWeight: "bold" }}>{campaign.User.firstName} {campaign.User.lastName}</span> for <span style={{ fontWeight: "bold" }}>{campaign.Charity.name}</span>
                     </Typography>
                 </CardContent>
             </CardActionArea>
