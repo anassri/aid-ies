@@ -6,6 +6,7 @@ import CampaignItems from './CampaignItems';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +45,7 @@ const CampaignBrowser = () => {
                 spacing={3}>
                 {campaigns.map((campaign) => { if(!campaign.isExpired) return <Grid key={campaign.id} item xs={4}><CampaignItems  campaign={campaign} /></Grid> })}
             </Grid>
+            <Divider style={{marginTop:40}}/>
             <Typography gutterBottom variant="h4" component="h2" className="campaign-header-label campaign-text">
                 Closed Campaigns
             </Typography>

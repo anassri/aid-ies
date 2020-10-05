@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import CampaignItems from './CampaignItems';
 import { getUserCampaigns, getUserFavorites, getCampaigns} from '../store/dashboard';
-import { clearExistingErrors } from '../store/authentication';
 import Grid from '@material-ui/core/Grid';
 import DashboardBids from './DashboardBids';
 import UserEdit from './UserEdit';
@@ -52,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
-        // height: '100%',
         minHeight: 500,
         boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
         marginTop: 20,
@@ -65,20 +63,58 @@ const useStyles = makeStyles((theme) => ({
     }
    
 }));
+// const DetermineWonCampaigns = () => {
+//     const userId = useSelector(state => state.authentication.user.id);
+//     const allCampaigns = useSelector(state => state.campaign.list);
+//     const determineBid = (campaign) => {
+//         let highest = null
+//         let bidUserId = null;
+//         if (campaign.Bids.length) {
+//             campaign.Bids.forEach(bid => {
+//                 if (highest < Number.parseInt(bid.bid)) {
+//                     highest = Number.parseInt(bid.bid)
+//                     bidUserId = bid.userId
+//                 }
+//             });
+//         }
+//         if (bidUserId === userId) return true;
+//         return false;
+//     }
+    
+//     const wonCampaigns = allCampaigns.map((campaign) => (campaign.isExpired && determineBid(campaign))
+//     ? <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid>
+//     : null);
+//     if(wonCampaigns) return wonCampaigns;
+    
+//     return <Typography variant="h3" color="textSecondary" component="p" style={{ opacity: 0.3, justifyContent: 'center', }}>
+//             No won campaigns yet.
+//         </Typography>
 
+// }
 export default function Dashboard() {
     const classes = useStyles();
     const [value, setValue] = useState(0);
     const userId = useSelector(state => state.authentication.user.id);
-    const allCampaigns = useSelector(state => state.campaign.list);
     const campaigns = useSelector(state => state.dashboard.userCampaigns);
     const favorites = useSelector(state => state.dashboard.favorites);
-    const highest = useSelector(state => state.campaign.highestBid);
-    const winningUser = useSelector(state => state.campaign.winningUser);
+    const allCampaigns = useSelector(state => state.campaign.list);
 
     const dispatch = useDispatch();
 
-
+    const determineBid = (campaign) => {
+        let highest = null
+        let bidUserId = null;
+        if (campaign.Bids.length) {
+            campaign.Bids.forEach(bid => {
+                if (highest < Number.parseInt(bid.bid)) {
+                    highest = Number.parseInt(bid.bid)
+                    bidUserId = bid.userId
+                }
+            });
+        }
+        if (bidUserId === userId) return true;
+        return false;
+    }
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -107,16 +143,14 @@ export default function Dashboard() {
             </Tabs>
             <div className={classes.content}>
                 <TabPanel value={value} index={0}>
-                    <Typography variant="h3" color="textSecondary" component="p" style={{opacity: 0.3, justifyContent:'center', }}>
-                        No won campaigns yet.
-                        <Grid container
-                            direction="row"
-                            justify="flex-start"
-                            spacing={3}>
-
-                            {/* {allCampaigns.map((campaign) => { <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid>})} */}
-                        </Grid>
-                    </Typography>
+                    <Grid container
+                        direction="row"
+                        justify="flex-start"
+                        spacing={3}>
+                        {allCampaigns.map((campaign) => (campaign.isExpired && determineBid(campaign))
+                            ? <Grid key={campaign.id} item xs={10}><CampaignItems campaign={campaign} /></Grid>
+                            : null)}
+                    </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <Grid container
