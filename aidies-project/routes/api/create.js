@@ -11,8 +11,6 @@ const router = express.Router();
 router.post('/', asyncHandler(async (req, res) => {
     const { campaignName, summary, story, startingPrice, closingDate, userId, charity, category } = req.body;
     // const validationErrors = validationResult(req);
-    console.log(req.body);
-    console.log('here')
     /* if (!validationErrors.isEmpty()) {
         const errors = validationErrors.array().map((err) => err.msg);
         res.status(400).json(errors);

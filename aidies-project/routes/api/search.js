@@ -10,7 +10,17 @@ const router = express.Router();
 router.get('/:value', asyncHandler(async (req, res) => {
     const campaigns = await Campaign.findAll({
         where: {
-            'name': { [Op.like]: '%' + req.params.value + '%' }
+            [Op.or]: [
+                {
+                    'name': { [Op.iLike]: '%' + req.params.value + '%' }
+                },
+                {
+                    'summary': { [Op.iLike]: '%' + req.params.value + '%' }
+                },
+                {
+                    'story': { [Op.iLike]: '%' + req.params.value + '%' }
+                }
+            ]
         },
         include: [{
             model: User,

@@ -85,7 +85,6 @@ router.put('/:id/edit', asyncHandler(async (req, res) => {
     campaign.categoryId = category;
 
     await campaign.save();
-    console.log('saved');
     res.json(campaign);
     
 }))

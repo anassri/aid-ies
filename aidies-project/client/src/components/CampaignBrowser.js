@@ -30,9 +30,9 @@ const CampaignBrowser = () => {
         dispatch(getCampaigns())
     }, []);
     
-    if(!campaigns.length){
-        return null; 
-    }
+    // if(!campaigns.length){
+    //     return null; 
+    // }
     return (
     
         <div className={`${classes.root} campaign-browser`} >
@@ -43,7 +43,10 @@ const CampaignBrowser = () => {
                 direction="row"
                 justify="center"
                 spacing={3}>
-                {campaigns.map((campaign) => { if(!campaign.isExpired) return <Grid key={campaign.id} item xs={4}><CampaignItems  campaign={campaign} /></Grid> })}
+                {campaigns.length
+                ? campaigns.map((campaign) => { if(!campaign.isExpired) return <Grid key={campaign.id} item xs={4}><CampaignItems  campaign={campaign} /></Grid> })
+                : <h1 className="no-campaigns-container">No Active Campaigns Found.</h1>
+                }
             </Grid>
             <Divider style={{marginTop:40}}/>
             <Typography gutterBottom variant="h4" component="h2" className="campaign-header-label campaign-text">
@@ -53,7 +56,10 @@ const CampaignBrowser = () => {
                 direction="row"
                 justify="center"
                 spacing={3}>
-                {campaigns.map((campaign) => { if (campaign.isExpired) return <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid> })}
+                {campaigns.length
+                    ?campaigns.map((campaign) => { if (campaign.isExpired) return <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid> })
+                : <h1 className="no-campaigns-container">No Completed Campaigns Found.</h1>
+                }
             </Grid>
         </div>
     

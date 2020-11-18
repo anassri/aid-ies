@@ -48,7 +48,6 @@ export const login = (email, password) => {
 };
 
 export const logout = () => async dispatch => {
-    console.log('logout thunk')
     const res = await fetch('/api/session', {
         method: "delete"
     });

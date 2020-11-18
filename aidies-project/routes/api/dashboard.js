@@ -53,7 +53,6 @@ router.get('/:id/bids', asyncHandler(async (req, res) => {
 
 }))
 router.get('/:id/favorites', asyncHandler(async (req, res) => {
-    console.log(parseInt(req.params.id))
     const favorites = await Campaign.findAll({
         include: {
             model: User,

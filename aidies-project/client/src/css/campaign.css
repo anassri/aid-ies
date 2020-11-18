@@ -87,16 +87,23 @@
     padding-bottom: 20px;
 }
 .items-other-info{
+    margin: 10px;
+    /* position: absolute; */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-end;
-    margin: 10px;
+    /* align-items: flex-end; */
+    /* bottom: 0; */
+}
+.no-campaigns-container{
+    font-weight: normal;
+    opacity: 0.1;
 }
 .card-container{
     display: flex;
     flex-direction: column;
     align-content: space-between;
+    position: relative;
     /* height: 540px; */
 }
 .bid{

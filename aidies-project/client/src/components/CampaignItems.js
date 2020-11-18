@@ -18,12 +18,16 @@ import '../css/campaign.css';
 
 const useStyles = makeStyles({
     root: {
+        height: '100%'
     },
     media: {
         height: 250,
     },
     progress: {
         width: '20%',
+    },
+    bottom: {
+        alignItems: 'flex-end'
     }
 });
 
@@ -83,7 +87,7 @@ const CampaignItems = ({ campaign }) => {
                 </div>
             </CardActions>
             <CardActions className="items-other-info-container">
-                <div className="items-other-info">
+                <div className={`${classes.bottom} items-other-info`}>
                     <Typography variant="body1" color="textSecondary" component="p">
                         {campaign.Category.name}
                     </Typography>

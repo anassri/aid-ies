@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/authentication';
 import Alert from '@material-ui/lab/Alert';
@@ -46,6 +46,7 @@ const LoginPanel = (props) => {
     const userId = useSelector(state => state.authentication.user.id);
     const errors = useSelector(state => state.authentication.errors);
     const location = useSelector(state => state.campaign.previousLocation);
+    const history = useHistory();
     const classes = useStyles();
 
     const handleSubmit = (e) =>{
@@ -54,7 +55,8 @@ const LoginPanel = (props) => {
     }
     if (userId!== null) {
         if(!location){
-            return <Redirect to="/" />
+            history.goBack();
+            // return <Redirect to="/" />
         }
         return <Redirect to={location} />
     }

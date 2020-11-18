@@ -125,16 +125,16 @@ function Navigation() {
                                 <div className="nav-icon"><i className="fas fa-search"></i></div>
                             </div>
                             <form onSubmit={handleSearch}>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                inputProps={{ 'aria-label': 'search' }}
-                                value={keyword}
-                                onChange={e => setKeyword(e.target.value)}
-                            />
+                                <InputBase
+                                    placeholder="Search…"
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                    inputProps={{ 'aria-label': 'search' }}
+                                    value={keyword}
+                                    onChange={e => setKeyword(e.target.value)}
+                                />
                             </form>
                         </div>
                     </div>
