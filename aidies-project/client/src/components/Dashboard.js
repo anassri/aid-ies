@@ -137,7 +137,6 @@ export default function Dashboard() {
             >
                 <Tab label="Won Campaigns" {...a11yProps(0)} />
                 <Tab label="My Campaigns" {...a11yProps(1)} onClick={handleMyCampaigns}/>
-                <Tab label="My Favorites" {...a11yProps(2)} onClick={handleFavorites}/>
                 <Tab label="My Bids" {...a11yProps(3)} />
                 <Tab label="My Profile" {...a11yProps(4)} />\
             </Tabs>
@@ -161,18 +160,7 @@ export default function Dashboard() {
                         {campaigns.map((campaign) => <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid>)}
                     </Grid>
                 </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <Typography variant="h3" color="textSecondary" component="p" style={{ opacity: 0.3, justifyContent: 'center', }}>
-                        No favorite campaigns yet.
-                        <Grid container
-                            direction="row"
-                            justify="flex-start"
-                            spacing={3}>
-
-                            {/* {favorites.map((favorite) => <Grid key={favorite.id} item xs={4}><CampaignItems campaign={favorite} /></Grid>)} */}
-                        </Grid>
-                    </Typography>
-                </TabPanel>
+                
                 <TabPanel value={value} index={3}>
                     <DashboardBids userId={userId}/>
                 </TabPanel>
