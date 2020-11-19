@@ -1,0 +1,87 @@
+nav footer{
+    display: flex;
+    justify-content: center;
+}
+nav a {
+    font-size: 12px;
+    text-decoration: none;
+    color: #444;
+    
+}
+nav a:hover {
+    color: #222;
+    
+}
+.logo{
+    position: relative;
+}
+.navigation-container{
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    min-width: 1080px;
+    padding: 15px 0;
+    border-bottom: 1px solid #ccc ;
+}
+
+.nav-right-buttons {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.nav-button{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+}
+.right{
+    
+    padding-left: 100px;
+}
+.nav-icon{
+    padding-right: 15px;
+}
+.dashboard-btn{
+    margin-left: 40px;
+}
+.footer-container{
+    /* text-align: center; */
+    margin-top: auto;
+    flex-shrink: 0;
+    width: 90%;
+    min-width: 1080px;
+    padding: 25px 0;
+    border-top: 1px solid #ccc ;
+}
+.copyright.MuiTypography-root{
+    margin-top: 12px;
+}
+.logo.footer{
+    margin-top: 20px;
+}
+.category-filter, .back-button-container{
+    display: flex;
+    margin: 20px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc ;
+}
+.category-filter{
+    justify-content: center;
+}
+.back-button-container{
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.category-button{
+    margin: 0 10px;
+}
+.back-icon{
+    margin-right: 10px;
+}
+.back-button-icon{
+    display: flex;
+    align-items: center;
+}

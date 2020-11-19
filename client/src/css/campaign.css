@@ -1,0 +1,138 @@
+.campaign-browser{
+    display: flex;
+    justify-content: center;
+    max-width: 1080px;
+    margin: 20px 0;
+}
+
+.campaign-main-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    max-height: 100%;
+    
+}
+.detail-card, .create-card {
+    margin: 20px 0;
+    max-width: 1080px;
+    max-height: 780px;
+}
+.image-container{
+    max-width: 580px;
+    max-height: 100%;
+    object-fit: cover;
+    text-align: left;
+}
+.image-container img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.charity-info{
+    padding-top: 10px;
+}
+.information-container{
+    padding: 30px;
+    width: 580px;
+}
+.charity-website{
+    text-decoration: none;
+    color: #222;
+}
+.detail-current-bid{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 0;
+    margin-bottom: 10px;
+    color: #ee3737;
+
+    
+}
+.detail-remaining{
+    text-align: right;
+}
+
+.other-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.information-tabs{
+    margin-top: 10px;
+    overflow: auto;
+}
+.location{
+    display: flex;
+    flex-direction: row;
+    
+}
+.edit-menu{
+    text-align: right;
+    margin-top:-10px;
+}
+.edit-icon{
+    opacity: 0.3;
+}
+
+.create-card{
+    margin: 50px 0;
+    max-width: 1080px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.campaign-title {
+    padding-bottom: 20px;
+}
+.items-other-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 10px;
+}
+.card-container{
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    /* height: 540px; */
+}
+.bid{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 0 10px;
+}
+.bid div{
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.current-bid{
+    text-align: right;
+}
+.MuiCardActions-root.stats-container{
+    display: block;
+}
+.MuiCardActions-root.items-other-info-container{
+    display: block;
+    
+}
+.current-bid, .detail-current-bid{
+    color: #60b660;
+}
+
+.remaining.counter.progress-bar{
+    color: #ee3737;
+    display: flex;
+    flex-direction: column ;
+    
+}
+
+.campaign-header-label.campaign-text {
+    justify-content: flex-start;
+    margin: 20px 0;
+}
