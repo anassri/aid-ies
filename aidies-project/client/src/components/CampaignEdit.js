@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { editCampaign, getCharities, getCategories } from '../store/campaign';
+import { editCampaign, getCharities, getCategories, uploadPhoto } from '../store/campaign';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, Button, FormControl, Grid, InputLabel, Select, MenuItem, TextField, IconButton } from '@material-ui/core';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import '../css/campaign.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +48,7 @@ const CampaignCreate = () => {
     const [charity, setCharity] = useState(2);
     const [category, setCategory] = useState(3);
     const [button, setButton] = useState('Start a campaign');
-
+    const [campaignPictureFile, setCampaignPictureFile] = useState(null);
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
@@ -80,7 +79,13 @@ const CampaignCreate = () => {
     const handleCreate = async (e) => {
         e.preventDefault();
         await dispatch(editCampaign({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category, id: campaign.id }));
+        savePhoto();
         history.push(`/campaign/${campaign.id}`);
+    }
+    const savePhoto = () => {
+        const data = new FormData();
+        data.append('campaignPictureFile', campaignPictureFile);
+        dispatch(uploadPhoto(data));
     }
     return (
         <Card className={`${classes.root} create-card`}>
@@ -89,7 +94,7 @@ const CampaignCreate = () => {
                 <div className="image-container">
                     <img
                         className="campaign-image"
-                        src={image}
+                        src={campaignPictureFile ? URL.createObjectURL(campaignPictureFile) :image}
                         alt={campaignName}
                     />
                 </div>
@@ -135,17 +140,12 @@ const CampaignCreate = () => {
                                 id="contained-button-file"
                                 multiple
                                 type="file"
+                                onChange={(e) => setCampaignPictureFile(e.target.files[0])}
                             />
                             <label htmlFor="contained-button-file">
                                 <Button variant="contained" className={classes.button} component="span">
                                     Upload
                                 </Button>
-                            </label>
-                            <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
-                            <label htmlFor="icon-button-file"> {image}
-                                <IconButton style={{ color: '222' }} aria-label="upload picture" component="span">
-                                    <PhotoCamera />
-                                </IconButton>
                             </label>
                         </Grid>
                         <Grid item xs={12} sm={12}>

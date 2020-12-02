@@ -91,6 +91,14 @@ export const createCampaign = ({ campaignName, summary, story, startingPrice, cl
         });
     };
 };
+export const uploadPhoto =({data}) => {
+    return async dispatch => {
+        await fetch('/api/photo/upload', {
+            method: 'post',
+            body: data,
+        });
+    }
+}
 export const getCharities = () => {
     return async dispatch => {
         const response = await fetch('/api/charity');
