@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { getCharities, createCampaign, getCategories, uploadPhoto } from '../store/campaign';
+import { getCharities, createCampaign, getCategories } from '../store/campaign';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, Button, FormControl, Grid, InputLabel, Select, MenuItem, TextField, IconButton} from '@material-ui/core';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
@@ -63,14 +63,14 @@ const CampaignCreate = () => {
     const handleCreate = (e) => {
         e.preventDefault();
         dispatch(createCampaign({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }));
-        savePhoto();
+        // savePhoto();
         history.push("/"); 
     }
-    const savePhoto = () => {
-        const data = new FormData();
-        data.append('campaignPictureFile', campaignPictureFile);
-        dispatch(uploadPhoto(data));
-    }
+    // const savePhoto = () => {
+    //     const data = new FormData();
+    //     data.append('campaignPictureFile', campaignPictureFile);
+    //     dispatch(uploadPhoto(data));
+    // }
     return (
         <Card className={`${classes.root} create-card`} >
             <div className="image-container">
@@ -115,19 +115,22 @@ const CampaignCreate = () => {
                         />
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <input
-                            accept="image/*"
-                            className={classes.input}
-                            id="contained-button-file"
-                            multiple
-                            type="file"
-                            onChange={(e) => setCampaignPictureFile(e.target.files[0])}
-                        />
-                        <label htmlFor="contained-button-file">
-                            <Button variant="contained" className={classes.button} component="span">
+                        <div className="upload-photo-container" style={{display: 'flex'}}>
+                            <input
+                                accept="image/*"
+                                className={classes.input}
+                                id="contained-button-file"
+                                multiple
+                                type="file"
+                                onChange={(e) => setCampaignPictureFile(e.target.files[0])}
+                            />
+                            <label htmlFor="contained-button-file">
+                            </label>
+                            <Button variant="contained" disabled className={classes.button} component="span">
                                 Upload
                             </Button>
-                        </label>
+                            <p style={{marginLeft: 20, fontStyle: "italic", opacity: 0.3}}>Upload feature is coming soon...</p>
+                        </div>
                         {/* <input accept="image/*" className={classes.input} id="icon-button-file" type="file" onChange={(e) => setCampaignPictureFile(e.target.files[0])}/>
                         <label htmlFor="icon-button-file"> {image}
                             <IconButton style={{color:'222'}} aria-label="upload picture" component="span">
