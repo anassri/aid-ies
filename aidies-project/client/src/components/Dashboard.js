@@ -137,8 +137,8 @@ export default function Dashboard() {
             >
                 <Tab label="Won Campaigns" {...a11yProps(0)} />
                 <Tab label="My Campaigns" {...a11yProps(1)} onClick={handleMyCampaigns}/>
-                <Tab label="My Bids" {...a11yProps(3)} />
-                <Tab label="My Profile" {...a11yProps(4)} />\
+                <Tab label="My Bids" {...a11yProps(2)} />
+                <Tab label="My Profile" {...a11yProps(3)} />\
             </Tabs>
             <div className={classes.content}>
                 <TabPanel value={value} index={0}>
@@ -161,10 +161,10 @@ export default function Dashboard() {
                     </Grid>
                 </TabPanel>
                 
-                <TabPanel value={value} index={3}>
+                <TabPanel value={value} index={2}>
                     <DashboardBids userId={userId}/>
                 </TabPanel>
-                <TabPanel value={value} index={4}>
+                <TabPanel value={value} index={3}>
                     <UserEdit />
                 </TabPanel>
             </div>
