@@ -3,6 +3,7 @@ const multer = require('multer');
 const AWS = require('aws-sdk');
 const fs = require('fs');
 const aws = require('../../config/');
+const { Campaign } = require('../../db/models');
 
 const router = express.Router();
 
@@ -14,7 +15,8 @@ const storage = multer.diskStorage({
         cb(null, file.originalname);
     }
 });
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
+const upload = multer();
 
 //setting the credentials
 //The region should be the region of the bucket that you created
@@ -28,19 +30,37 @@ AWS.config.update({
 //Creating a new instance of S3:
 const s3 = new AWS.S3();
 
+const fileFilter = (req, res, next) => {
+    const file = req.files[0];
+    if(file.mimeType === "image/jpeg" || file.mimeType === "image/png"){
+        next();
+    } else {
+        next({status: 422, errors: ["Invalid mime type, file must be JPEG or PNG"]});
+    }
+}
 //POST method route for uploading file
-router.post('/upload', upload.single('demo_file'), function (req, res) {
+router.post('/upload', upload.any(), fileFilter, async (req, res) => {
     //Multer middleware adds file(in case of single file ) or files(multiple files) object to the request object.
     //req.file is the demo_file
-    
-    uploadFile(req.file.path, req.file.filename, res);
+    // uploadFile(req.file.path, req.file.filename, res);
+
+    const file = req.files[0];
+
+    const params = {
+        Bucket: aws.bucket,
+        key: Date.now().toString() + file.originalname,
+        body: file.buffer,
+        ACL: "public-read",
+        ContentType: file.mimeType,
+    }
+
+    const promise = s3. upload(params).promise();
+
+    const uploadedImage = await promise;
+    const imageURL = uploadedImage.Location;
+
 
 })
-
-//GET method route for downloading/retrieving file
-router.get('/get_file/:file_name', (req, res) => {
-    retrieveFile(req.params.file_name, res);
-});
 
 //The uploadFile function
 function uploadFile(source, targetName, res) {
@@ -70,22 +90,5 @@ function uploadFile(source, targetName, res) {
     });
 }
 
-//The retrieveFile function
-function retrieveFile(filename, res) {
-
-    const getParams = {
-        Bucket: aws.bucket,
-        Key: filename
-    };
-
-    s3.getObject(getParams, function (err, data) {
-        if (err) {
-            return res.status(400).send({ success: false, err: err });
-        }
-        else {
-            return res.send(data.Body);
-        }
-    });
-}
 
 module.exports = router;
