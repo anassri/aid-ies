@@ -9,14 +9,14 @@
 * [Next Steps](#next-steps)
 
 ## Aidies Summary
-Aidies is a social media website modeled after Facebook. Its objective is to help you stay in touch with the people you  care about. Aidies makes it easy to let your close friends and family know about your life events, minor or major. 
+Aidies is an auction app modeled after Kickstarter. Its objective is to help you auction off your work for charity. Aidies makes it easy to support the charity you love by selling a piece of work you made. 
 
 ![aidies gif](./graphics/aidies.gif)
 
 ## Technologies Used
-Aidies is a full-stack application built with a React frontend and a Python/Flask backend. Most of the logic happens in the React frontend. The styling is mostly done with raw CSS, with a tiny help from the [Material UI framework](https://material-ui.com/).
+Aidies is a full-stack application built with a React frontend and an Express backend. Most of the logic happens in the React frontend. Incorporating [Material UI framework](https://material-ui.com/) for the styling.
 
-The frontend is served by the backend, which responds to requests, fetches geocoding information from the [Location IQ API](https://locationiq.com/) to the frontend, integrates with AWS S3 for cloud storage, and grabs data from the PostgreSQL database.
+The frontend is served by the backend, which responds to requests, and grabs data from the PostgreSQL database.
 
 ## Frontend Overview
 
@@ -24,21 +24,81 @@ Aidies is a frontend heavy application. It utilizes React to create a dynamic an
 
 ### React
 
-Aidies is plainly a React application. It utilizes its higher order components for a dynamic and efficient rendering. The app extensively uses the technologies and libraries of the React ecosystem.
+Aidies is a React application. It utilizes its higher order components for a dynamic and efficient rendering. The app extensively uses the technologies and libraries of the React ecosystem.
 
-The code snippet below dynamically renders posts for the user's home feed, passing the logged in user and one post at a time as props. It also places the `CreatePost` component at the front so that it is easily accessible to the user.
+
+In the main page that displays all campaigns, the app generates the campaign cards dynamically. The code snippet below renders cards.
 
 ```js
-<div className="body-container">
-    <div className="posts-body-container">
-    <CreatePost />
-        {sortedPosts.map((post, i) => <PostCard 
-            key={i} 
-            user={user} 
-            post={post}/>)
-            }
-    </div>
-</div>
+<Grid   container 
+        direction="row"
+        justify="center"
+        spacing={3}>
+        {campaigns.length
+        ? campaigns.map((campaign) => { if(!campaign.isExpired) return <Grid key={campaign.id} item xs={4}>
+                <CampaignItems  campaign={campaign} /></Grid> })
+        : <h1 className="no-campaigns-container">No Active Campaigns Found.</h1>
+        }
+</Grid>
+```
+
+The code above utilizes the `CampaignItems` component to dynamically generate those cards. Here's what the `CampaignItems` looks like under the hood:
+
+```js
+<Card className={`${classes.root} card-container`}>
+    <CardActionArea>
+        <Link key={campaign.id} to={`/campaign/${campaign.id}`} className={classes.text}>
+            <CardMedia
+                className={classes.media}
+                image={campaign.image}
+                title={campaign.name}
+            />
+        <CardContent>
+        
+            <Typography gutterBottom variant="h5" component="h2" >
+                {campaign.name}
+            </Typography>
+            <Typography variant="body1" color="textSecondary" component="p">
+                {campaign.summary}
+            </Typography>
+            <Typography variant="caption" color="textSecondary" component="p" style={{marginTop: 10}}>
+                By <span style={{ fontWeight: "bold" }}>{campaign.User.firstName} {campaign.User.lastName}</span> for <span style={{ fontWeight: "bold" }}>{campaign.Charity.name}</span>
+            </Typography>
+        </CardContent>
+        <CardActions className="stats-container">
+            <div className="bid time-left">
+                <div className="current-bid">
+                    <Typography gutterBottom variant="body1" component="h2">
+                        <DetermineBid campaign={campaign} />
+                    </Typography>
+                </div>
+                <div className="remaining counter progress-bar">
+                    <Typography gutterBottom variant="body1" component="h2">
+                        <DetermineTimeRemaining isExpired={campaign.isExpired} closingDate={campaign.closingDate} createdAt={campaign.createdAt} />
+                    </Typography>
+                    <div className={classes.progress}>
+                        <LinearProgress variant="determinate" value={progress} />
+                    </div>
+                </div>
+            </div>
+        </CardActions>
+        <CardActions className="items-other-info-container">
+            <div className={`${classes.bottom} items-other-info`}>
+                <Typography variant="body1" color="textSecondary" component="p">
+                    {campaign.Category.name}
+                </Typography>
+                <div className="location">
+                    <div className="nav-icon"><i className="fas fa-map-marker-alt"></i></div>
+                    <Typography variant="body1" color="textSecondary" component="p">
+                        {campaign.User.location}
+                    </Typography>
+                </div>
+            </div>
+        </CardActions>
+        </Link>
+    </CardActionArea>
+
+</Card>
 ```
 `PostCard` will destructure the props to use the information contained and insert them where they need to be in the layout. It also determines wether certain actions have already been taken on the post itself, such as likes and comments, and displays those accordingly. If the logged in user has clicked the `Like` button before, it will register that as such.
 
