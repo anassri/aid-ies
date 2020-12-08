@@ -14,14 +14,19 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import {  differenceInSeconds, parseISO } from 'date-fns'
 import '../css/campaign.css';
+import '../css/index.css';
 
 
 const useStyles = makeStyles({
     root: {
-        height: '100%'
+        height: '100%',
     },
     media: {
         height: 250,
+    },
+    text:{
+        textDecoration: 'none',
+        color: 'inherit',
     },
     progress: {
         width: '20%',
@@ -49,16 +54,15 @@ const CampaignItems = ({ campaign }) => {
     return (
         <Card className={`${classes.root} card-container`}>
             <CardActionArea>
-                <Link key={campaign.id} to={`/campaign/${campaign.id}`}>
+                <Link key={campaign.id} to={`/campaign/${campaign.id}`} className={classes.text}>
                     <CardMedia
                         className={classes.media}
                         image={campaign.image}
                         title={campaign.name}
                     />
-                </Link>
                 <CardContent>
                 
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h5" component="h2" >
                         {campaign.name}
                     </Typography>
                     <Typography variant="body1" color="textSecondary" component="p">
@@ -68,37 +72,39 @@ const CampaignItems = ({ campaign }) => {
                         By <span style={{ fontWeight: "bold" }}>{campaign.User.firstName} {campaign.User.lastName}</span> for <span style={{ fontWeight: "bold" }}>{campaign.Charity.name}</span>
                     </Typography>
                 </CardContent>
-            </CardActionArea>
-            <CardActions className="stats-container">
-                <div className="bid time-left">
-                    <div className="current-bid">
-                        <Typography gutterBottom variant="body1" component="h2">
-                            <DetermineBid campaign={campaign} />
-                        </Typography>
-                    </div>
-                    <div className="remaining counter progress-bar">
-                        <Typography gutterBottom variant="body1" component="h2">
-                            <DetermineTimeRemaining isExpired={campaign.isExpired} closingDate={campaign.closingDate} createdAt={campaign.createdAt} />
-                        </Typography>
-                        <div className={classes.progress}>
-                            <LinearProgress variant="determinate" value={progress} />
+                <CardActions className="stats-container">
+                    <div className="bid time-left">
+                        <div className="current-bid">
+                            <Typography gutterBottom variant="body1" component="h2">
+                                <DetermineBid campaign={campaign} />
+                            </Typography>
+                        </div>
+                        <div className="remaining counter progress-bar">
+                            <Typography gutterBottom variant="body1" component="h2">
+                                <DetermineTimeRemaining isExpired={campaign.isExpired} closingDate={campaign.closingDate} createdAt={campaign.createdAt} />
+                            </Typography>
+                            <div className={classes.progress}>
+                                <LinearProgress variant="determinate" value={progress} />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </CardActions>
-            <CardActions className="items-other-info-container">
-                <div className={`${classes.bottom} items-other-info`}>
-                    <Typography variant="body1" color="textSecondary" component="p">
-                        {campaign.Category.name}
-                    </Typography>
-                    <div className="location">
-                        <div className="nav-icon"><i className="fas fa-map-marker-alt"></i></div>
+                </CardActions>
+                <CardActions className="items-other-info-container">
+                    <div className={`${classes.bottom} items-other-info`}>
                         <Typography variant="body1" color="textSecondary" component="p">
-                            {campaign.User.location}
+                            {campaign.Category.name}
                         </Typography>
+                        <div className="location">
+                            <div className="nav-icon"><i className="fas fa-map-marker-alt"></i></div>
+                            <Typography variant="body1" color="textSecondary" component="p">
+                                {campaign.User.location}
+                            </Typography>
+                        </div>
                     </div>
-                </div>
-            </CardActions>
+                </CardActions>
+                </Link>
+            </CardActionArea>
+
         </Card>
     );
 }

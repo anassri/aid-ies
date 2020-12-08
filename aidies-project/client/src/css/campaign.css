@@ -99,12 +99,13 @@
     font-weight: normal;
     opacity: 0.1;
 }
-.card-container{
+.card-container > div{
     display: flex;
     flex-direction: column;
     align-content: space-between;
     position: relative;
     /* height: 540px; */
+    text-decoration: none;
 }
 .bid{
     display: flex;
