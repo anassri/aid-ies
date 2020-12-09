@@ -41,7 +41,7 @@ const CampaignCreate = () => {
     const [story, setStory] = useState('great story');
     const [image, setImage] = useState('');
     const [startingPrice, setStartingPrice] = useState('50');
-    const [closingDate, setClosingDate] = useState('2020-10-26T18:36');
+    const [closingDate, setClosingDate] = useState('2021-05-26T18:36');
     const [charity, setCharity] = useState(2);
     const [category, setCategory] = useState(3);
     const [button, setButton] = useState('Start a campaign');

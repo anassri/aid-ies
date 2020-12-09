@@ -55,10 +55,15 @@ export const getCampaigns = () => {
 };
 export const deleteCampaign = (id) => {
     return async dispatch => {
-        await fetch(`/api/campaign/${id}/delete`, {
+        const res = await fetch(`/api/campaign/${id}/delete`, {
             method: 'delete',
             headers: { 'Content-Type': 'application/json' },
         });
+        if(res.ok){
+            return {status: 200}
+        } else {
+            return {status: 400}
+        }
     };
 };
 export const searchCampaigns = (keyword) => {
@@ -140,13 +145,19 @@ export const getOneCampaign = (id) => {
 };
 export const editCampaign = ({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category, id }) => {
     return async dispatch => {
-        await fetch(`/api/campaign/${id}/edit`, {
+        const res = await fetch(`/api/campaign/${id}/edit`, {
             method: "put",
             headers: {
                 "Content-Type": "Application/json"
             },
             body: JSON.stringify({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }),
         });
+        if (res.ok) {
+            return { status: 200 }
+        } else {
+            const { errors } = await res.json();
+            return { status: 400, errors };
+        }
 
     };
 };

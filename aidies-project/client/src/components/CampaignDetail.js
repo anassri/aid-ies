@@ -83,10 +83,16 @@ const CampaignDetail = () => {
         
         setAnchorEl(null);
     };
-    const handleDelete = () => {
-        dispatch(deleteCampaign(id))
-        history.push('/');
-        setAnchorEl(null);
+    const handleDelete = async () => {
+        try{
+        const res = await dispatch(deleteCampaign(id));
+        if(res.status === 200){
+            history.push('/');
+            setAnchorEl(null);
+        }
+        } catch(e){
+            console.error(e)
+        }
     };
     const handleEdit = () => {
         history.push(`/campaign/${id}/edit`);

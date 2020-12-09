@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
 
 import { editCampaign, getCharities, getCategories } from '../store/campaign';
 import { makeStyles } from '@material-ui/core/styles';
@@ -44,11 +45,13 @@ const CampaignCreate = () => {
     const [story, setStory] = useState('great story');
     const [image, setImage] = useState('');
     const [startingPrice, setStartingPrice] = useState('50');
-    const [closingDate, setClosingDate] = useState('2020-10-26T18:36');
+    const [closingDate, setClosingDate] = useState('2021-05-26T18:36');
     const [charity, setCharity] = useState(2);
     const [category, setCategory] = useState(3);
     const [button, setButton] = useState('Start a campaign');
     const [campaignPictureFile, setCampaignPictureFile] = useState(null);
+    const [errors, setErrors] = useState([]);
+
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
@@ -78,9 +81,21 @@ const CampaignCreate = () => {
     }
     const handleCreate = async (e) => {
         e.preventDefault();
-        await dispatch(editCampaign({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category, id: campaign.id }));
         // savePhoto();
-        history.push(`/campaign/${campaign.id}`);
+        
+
+        try {
+            const res = await dispatch(editCampaign({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category, id: campaign.id }));
+            // savePhoto();
+            console.log(res)
+            if (res.status === 200) {
+                history.push(`/campaign/${campaign.id}`);
+            } else {
+                setErrors([...res.errors]);
+            }
+        } catch (e) {
+            console.error(e)
+        }
     }
     // const savePhoto = () => {
     //     const data = new FormData();
@@ -103,7 +118,11 @@ const CampaignCreate = () => {
                     <Typography component="h1" variant="h5" className="campaign-title">
                         Edit A Campaign
                     </Typography>
-
+                    {errors.length
+                        ? <Alert variant="outlined" severity="error" style={{ marginBottom: 20 }} >
+                            {errors.map((error, i) => <li key={i} className="error-list-item">{error}</li>)}
+                        </Alert>
+                        : null}
                     <Grid container spacing={2} direction="column">
                         <Grid item xs={12} sm={12}>
                             <TextField
