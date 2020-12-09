@@ -84,11 +84,17 @@ export const filterCampaigns = (keyword) => {
 };
 export const createCampaign = ({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }) => {
     return async dispatch => {
-        await fetch('/api/create', {
+        const res = await fetch('/api/create', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }),
         });
+        if (res.ok){
+            return {status: 200}
+        } else {
+            const {errors} = await res.json();
+            return { status: 400, errors};
+        }
     };
 };
 export const uploadPhoto =({data}) => {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
 
 import { getCharities, createCampaign, getCategories } from '../store/campaign';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, Typography, Button, FormControl, Grid, InputLabel, Select, MenuItem, TextField, IconButton} from '@material-ui/core';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import { Card, Typography, Button, FormControl, Grid, InputLabel, Select, MenuItem, TextField} from '@material-ui/core';
 import placeholderImage from '../images/placeholder.png';
 import '../css/campaign.css';
 
@@ -46,6 +46,7 @@ const CampaignCreate = () => {
     const [category, setCategory] = useState(3);
     const [button, setButton] = useState('Start a campaign');
     const [campaignPictureFile, setCampaignPictureFile] = useState(null);
+    const [errors, setErrors] = useState([]);
 
     const classes = useStyles();
     const history = useHistory();
@@ -60,11 +61,20 @@ const CampaignCreate = () => {
         dispatch(getCharities());
     }, []); 
     
-    const handleCreate = (e) => {
+    const handleCreate = async (e) => {
         e.preventDefault();
-        dispatch(createCampaign({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }));
-        // savePhoto();
-        history.push("/"); 
+        try {
+            const res = await dispatch(createCampaign({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }));
+            // savePhoto();
+            console.log(res)
+            if(res.status === 200){
+                history.push("/"); 
+            } else {
+                setErrors([...res.errors]);
+            }
+        } catch (e) {
+            console.error(e)
+        }
     }
     // const savePhoto = () => {
     //     const data = new FormData();
@@ -84,7 +94,11 @@ const CampaignCreate = () => {
                 <Typography component="h1" variant="h5" className="campaign-title">
                     Start A Campaign
                 </Typography>
-                
+                {errors.length
+                    ? <Alert variant="outlined" severity="error" style={{marginBottom: 20}} >
+                        {errors.map((error, i) => <li key={i} className="error-list-item">{error}</li>)}
+                    </Alert>
+                    : null}
                 <Grid container spacing={2} direction="column">
                     <Grid item xs={12} sm={12}>
                         <TextField
