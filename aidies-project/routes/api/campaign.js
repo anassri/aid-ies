@@ -1,6 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { getUserToken, authenticated } = require('./auth');
+const { validationResult } = require('express-validator');
 
 const { Campaign, User, Charity, Category, Bid } = require('../../db/models');
 
@@ -74,19 +75,25 @@ router.delete('/:id/delete', asyncHandler(async (req, res) => {
     
 }))
 router.put('/:id/edit', asyncHandler(async (req, res) => {
-    const { campaignName, summary, story, startingPrice, closingDate, userId, charity, category } = req.body;
-    const campaign = await Campaign.findByPk(parseInt(req.params.id));
-    campaign.name = campaignName;
-    campaign.summary = summary;
-    campaign.story = story;
-    campaign.startingPrice = startingPrice;
-    campaign.closingDate = new Date(closingDate);
-    campaign.charityId = charity;
-    campaign.categoryId = category;
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+        const errors = validationErrors.array().map((err) => err.msg);
+        res.status(400).json(errors);
 
-    await campaign.save();
-    res.json(campaign);
-    
+    } else { 
+        const { campaignName, summary, story, startingPrice, closingDate, userId, charity, category } = req.body;
+        const campaign = await Campaign.findByPk(parseInt(req.params.id));
+        campaign.name = campaignName;
+        campaign.summary = summary;
+        campaign.story = story;
+        campaign.startingPrice = startingPrice;
+        campaign.closingDate = new Date(closingDate);
+        campaign.charityId = charity;
+        campaign.categoryId = category;
+
+        await campaign.save();
+        res.json(campaign);
+    }
 }))
 
 module.exports = router;

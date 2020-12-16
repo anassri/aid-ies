@@ -11,11 +11,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     campaignId: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      onDelete: 'CASCADE',
     },
   }, {});
   Bid.associate = function(models) {
-    Bid.belongsTo(models.Campaign, { foreignKey: "campaignId" });
+    Bid.belongsTo(models.Campaign, { foreignKey: "campaignId", onDelete: 'cascade' });
     Bid.belongsTo(models.User, { foreignKey: "userId" });
   };
   return Bid;

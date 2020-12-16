@@ -23,6 +23,7 @@ module.exports = {
       campaignId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         references: {
           model: 'Campaigns',
           key: 'id'
