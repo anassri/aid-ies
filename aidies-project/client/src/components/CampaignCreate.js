@@ -64,7 +64,6 @@ const CampaignCreate = () => {
         e.preventDefault();
         try {
             const res = await dispatch(createCampaign({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category }));
-            // savePhoto();
             console.log(res)
             if(res.status === 200){
                 history.push("/"); 
@@ -75,11 +74,6 @@ const CampaignCreate = () => {
             console.error(e)
         }
     }
-    // const savePhoto = () => {
-    //     const data = new FormData();
-    //     data.append('campaignPictureFile', campaignPictureFile);
-    //     dispatch(uploadPhoto(data));
-    // }
     return (
         <Card className={`${classes.root} create-card`} >
             <div className="image-container">
@@ -144,12 +138,6 @@ const CampaignCreate = () => {
                             </Button>
                             <p style={{marginLeft: 20, fontStyle: "italic", opacity: 0.3}}>Upload feature is coming soon...</p>
                         </div>
-                        {/* <input accept="image/*" className={classes.input} id="icon-button-file" type="file" onChange={(e) => setCampaignPictureFile(e.target.files[0])}/>
-                        <label htmlFor="icon-button-file"> {image}
-                            <IconButton style={{color:'222'}} aria-label="upload picture" component="span">
-                                <PhotoCamera />
-                            </IconButton>
-                        </label> */}
                     </Grid>
                     <Grid item xs={12} sm={12}>
                         <TextField
