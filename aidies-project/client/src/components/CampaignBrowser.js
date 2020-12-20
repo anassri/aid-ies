@@ -30,9 +30,6 @@ const CampaignBrowser = () => {
         dispatch(getCampaigns())
     }, []);
     
-    // if(!campaigns.length){
-    //     return null; 
-    // }
     return (
     
         <div className={`${classes.root} campaign-browser`} >
