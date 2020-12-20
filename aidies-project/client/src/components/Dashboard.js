@@ -63,34 +63,7 @@ const useStyles = makeStyles((theme) => ({
     }
    
 }));
-// const DetermineWonCampaigns = () => {
-//     const userId = useSelector(state => state.authentication.user.id);
-//     const allCampaigns = useSelector(state => state.campaign.list);
-//     const determineBid = (campaign) => {
-//         let highest = null
-//         let bidUserId = null;
-//         if (campaign.Bids.length) {
-//             campaign.Bids.forEach(bid => {
-//                 if (highest < Number.parseInt(bid.bid)) {
-//                     highest = Number.parseInt(bid.bid)
-//                     bidUserId = bid.userId
-//                 }
-//             });
-//         }
-//         if (bidUserId === userId) return true;
-//         return false;
-//     }
-    
-//     const wonCampaigns = allCampaigns.map((campaign) => (campaign.isExpired && determineBid(campaign))
-//     ? <Grid key={campaign.id} item xs={4}><CampaignItems campaign={campaign} /></Grid>
-//     : null);
-//     if(wonCampaigns) return wonCampaigns;
-    
-//     return <Typography variant="h3" color="textSecondary" component="p" style={{ opacity: 0.3, justifyContent: 'center', }}>
-//             No won campaigns yet.
-//         </Typography>
 
-// }
 export default function Dashboard() {
     const classes = useStyles();
     const [value, setValue] = useState(0);
