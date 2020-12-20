@@ -80,12 +80,10 @@ const CampaignCreate = () => {
     }
     const handleCreate = async (e) => {
         e.preventDefault();
-        // savePhoto();
         
 
         try {
             const res = await dispatch(editCampaign({ campaignName, summary, story, startingPrice, closingDate, userId, charity, category, id: campaign.id }));
-            // savePhoto();
             console.log(res)
             if (res.status === 200) {
                 history.push(`/campaign/${campaign.id}`);
@@ -96,11 +94,6 @@ const CampaignCreate = () => {
             console.error(e)
         }
     }
-    // const savePhoto = () => {
-    //     const data = new FormData();
-    //     data.append('campaignPictureFile', campaignPictureFile);
-    //     dispatch(uploadPhoto(data));
-    // }
     return (
         <Card className={`${classes.root} create-card`}>
             <div className={`${classes.details} campaign-main-container`}>
