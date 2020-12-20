@@ -60,7 +60,6 @@ const CampaignDetail = () => {
     if(!campaign || !campaign.User){
         return null;
     }
-    // const bidsDesc = campaign.Bids.slice(0).reverse();
     
     const handleBid = () => {
         if (needLogin){
