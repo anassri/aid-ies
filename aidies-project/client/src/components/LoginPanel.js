@@ -56,7 +56,6 @@ const LoginPanel = (props) => {
     if (userId!== null) {
         if(!location){
             history.goBack();
-            // return <Redirect to="/" />
         }
         return <Redirect to={location} />
     }

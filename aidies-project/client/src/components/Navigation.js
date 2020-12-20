@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
@@ -118,8 +117,6 @@ function Navigation() {
                 </NavLink></div>
                 <div className="nav-right-buttons">
                     <div className="nav-button">
-                        {/* <div className="nav-icon"><i className="fas fa-search"></i></div> */}
-                        {/* <NavLink to="/search" activeClassName="active"><Button>SEARCH</Button></NavLink> */}
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
                                 <div className="nav-icon"><i className="fas fa-search"></i></div>
